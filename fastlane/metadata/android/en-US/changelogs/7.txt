@@ -1,0 +1,2 @@
+- New SDK 34, Gradle and libraries
+- (v1.3.2)

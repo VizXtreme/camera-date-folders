@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="de.kromke.andreas.cameradatefolders">
+    package="de.kromke.andreas.cameradatefolders"
+    xmlns:tools="http://schemas.android.com/tools"
+    >
 
     <!-- For Android 4.4 .. 10 -->
+    <uses-sdk tools:overrideLibrary="androidx.navigation.common,androidx.navigation,androidx.navigation.ui,androidx.navigation.fragment,androidx.appcompat.resources,androidx.appcompat"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <!-- F-Droid version may also claim: MANAGE_EXTERNAL_STORAGE -->
     <!-- remove this line for Play Store version: -->
