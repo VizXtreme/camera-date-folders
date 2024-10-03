@@ -12,7 +12,7 @@ android {
         android.buildFeatures.buildConfig true
         minSdk 19
         targetSdk 34
-        versionCode 7
+        versionCode 8
         versionName "1.3.2p"
         multiDexEnabled true
 
