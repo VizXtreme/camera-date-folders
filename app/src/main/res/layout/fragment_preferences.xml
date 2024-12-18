@@ -97,7 +97,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="24dp"
-                android:text="@string/str_fulle_file_access" />
+                android:text="@string/str_full_file_access" />
 
             <com.google.android.material.switchmaterial.SwitchMaterial
                 android:id="@+id/switchForceFileMode"
@@ -106,10 +106,49 @@
                 android:layout_marginStart="24dp"
                 android:text="@string/str_force_file_mode" />
 
+            <RadioGroup
+                android:id="@+id/prefixRadioGroup"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="24dp">
+
+                <TextView
+                    android:id="@+id/button_prefix_header"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="12dp"
+                    android:text="@string/str_prefix"
+                    android:textSize="20sp" />
+
+                <RadioButton
+                    android:id="@+id/button_prefix_leave"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/str_prefix_leave"
+                    tools:ignore="HardcodedText" />
+
+                <RadioButton
+                    android:id="@+id/button_prefix_append"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/str_prefix_append"
+                    tools:ignore="HardcodedText" />
+
+                <RadioButton
+                    android:id="@+id/button_prefix_remove"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/str_prefix_remove"
+                    tools:ignore="HardcodedText" />
+
+            </RadioGroup>
+
             <com.google.android.material.switchmaterial.SwitchMaterial
                 android:id="@+id/switchDryRun"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
                 android:layout_marginStart="24dp"
                 android:text="@string/str_dry_run" />
 

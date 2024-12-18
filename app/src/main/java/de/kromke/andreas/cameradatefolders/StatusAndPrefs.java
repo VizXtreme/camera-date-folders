@@ -33,6 +33,7 @@ public class StatusAndPrefs
     public static final String PREF_CAM_FOLDER_URI = "prefCamFolderUri";
     public static final String PREF_DEST_FOLDER_URI = "prefDestFolderUri";
     public static final String PREF_FOLDER_SCHEME = "prefFolderScheme";
+    public static final String PREF_PREFIX_HANDLING = "prefPrefixHandling";
     public static final String PREF_BACKUP_COPY = "prefBackupCopy";
     public static final String PREF_FORCE_FILE_MODE = "prefForceFileMode";
     public static final String PREF_DRY_RUN = "prefDryRun";
@@ -45,6 +46,7 @@ public class StatusAndPrefs
     public static String mCamFolder = null;
     public static String mDestFolder = null;
     public static String mFolderScheme = null;
+    public static String mPrefixHandling = null;
     public static boolean mbBackupCopy = false;
     public static boolean mbFullFileAccess = false;
     public static boolean mbForceFileMode = false;
@@ -74,6 +76,7 @@ public class StatusAndPrefs
         mCamFolder = mPrefs.getString(PREF_CAM_FOLDER_URI, null);
         mDestFolder = mPrefs.getString(PREF_DEST_FOLDER_URI, null);
         mFolderScheme = mPrefs.getString(PREF_FOLDER_SCHEME, "ymd");
+        mPrefixHandling = mPrefs.getString(PREF_PREFIX_HANDLING, "leave");
         mbBackupCopy = mPrefs.getBoolean(PREF_BACKUP_COPY, false);
         mbForceFileMode = mPrefs.getBoolean(PREF_FORCE_FILE_MODE, false);
         mbDryRun = mPrefs.getBoolean(PREF_DRY_RUN, false);
@@ -99,6 +102,7 @@ public class StatusAndPrefs
             prefEditor.remove(PREF_CAM_FOLDER_URI);
             prefEditor.remove(PREF_DEST_FOLDER_URI);
             prefEditor.remove(PREF_FOLDER_SCHEME);
+            prefEditor.remove(PREF_PREFIX_HANDLING);
             prefEditor.remove(PREF_BACKUP_COPY);
             prefEditor.remove(PREF_FORCE_FILE_MODE);
             prefEditor.remove(PREF_DRY_RUN);
@@ -148,6 +152,11 @@ public class StatusAndPrefs
 
             case PREF_FOLDER_SCHEME:
                 mFolderScheme = (String) val;
+                isString = true;
+                break;
+
+            case PREF_PREFIX_HANDLING:
+                mPrefixHandling = (String) val;
                 isString = true;
                 break;
 

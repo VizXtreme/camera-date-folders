@@ -13,7 +13,7 @@
     <string name="str_sel_path">Select Camera Folder</string>
     <string name="str_sel_dest_path">(Optional) Select Destination Folder</string>
     <string name="str_scheme">Subfolder Scheme</string>
-    <string name="str_fulle_file_access">Allow Full File Access:</string>
+    <string name="str_full_file_access">Allow Full File Access:</string>
     <string name="str_force_file_mode">Force File Mode (Android 7, 8, 9):</string>
     <string name="str_force_file_mode_full_access">Use File Mode (~100 times faster):</string>
     <string name="str_dry_run">Dry Run (debug mode):</string>
@@ -33,4 +33,8 @@
     <string name="str_NeedManageFilesPermission">Full file access is needed to avoid slooooow SAF.</string>
     <string name="str_NotAvailableInPlayStoreVersion">This functionality is not available in the Play Store version of this program, because Google denies it for security reasons. You can either use SAF mode or install the F-Droid program version.</string>
     <string name="str_cancel">"Cancel"</string>
+    <string name="str_prefix">File Name Prefix (e.g. \"PXL_\")</string>
+    <string name="str_prefix_leave">Leave as is</string>
+    <string name="str_prefix_append">Move to End of File Name</string>
+    <string name="str_prefix_remove">Remove</string>
 </resources>

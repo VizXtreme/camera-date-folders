@@ -54,6 +54,21 @@ public class PreferencesFragment extends Fragment
             return "ymd";
     }
 
+    // convert radio button id to prefix handling in text form
+    private static String prefixId2Val(int id)
+    {
+        if (id == R.id.button_prefix_leave)
+            return "leave";
+        else
+        if (id == R.id.button_prefix_append)
+            return "append";
+        else
+        if (id == R.id.button_prefix_remove)
+            return "remove";
+        else
+            return "leave";
+    }
+
     // convert scheme in text form to radio button id
     private static int schemeVal2Id(final String val)
     {
@@ -75,6 +90,21 @@ public class PreferencesFragment extends Fragment
                 return R.id.button_scheme_y;
         }
         return R.id.button_scheme_y_m_d;
+    }
+
+    // convert prefix in text form to radio button id
+    private static int prefixVal2Id(final String val)
+    {
+        switch (val)
+        {
+            case "leave":
+                return R.id.button_prefix_leave;
+            case "append":
+                return R.id.button_prefix_append;
+            case "remove":
+                return R.id.button_prefix_remove;
+        }
+        return R.id.button_prefix_leave;
     }
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -173,6 +203,25 @@ public class PreferencesFragment extends Fragment
             {
                 Log.d(LOG_TAG, "Force File Mode switch = " + b);
                 StatusAndPrefs.writeValue(StatusAndPrefs.PREF_FORCE_FILE_MODE, b);
+            }
+        });
+
+
+        //
+        // file name prefix handling
+        //
+
+        final RadioGroup prefixHandling = binding.prefixRadioGroup;
+        prefixHandling.check(prefixVal2Id(StatusAndPrefs.mPrefixHandling));
+        prefixHandling.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener()
+        {
+            @Override
+            public void onCheckedChanged(RadioGroup view, int checkedId)
+            {
+                int id = view.getCheckedRadioButtonId();
+                Log.d(LOG_TAG, "checked Button id = " + id);
+                final String val = prefixId2Val(id);
+                StatusAndPrefs.writeValue(StatusAndPrefs.PREF_PREFIX_HANDLING, val);
             }
         });
 
