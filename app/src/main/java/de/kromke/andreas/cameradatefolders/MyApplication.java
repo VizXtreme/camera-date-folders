@@ -42,7 +42,8 @@ public class MyApplication extends Application
         MainActivity activity,
         Uri srcUri, Uri dstUri,
         String scheme,
-        boolean backupCopy, boolean bDryRun, boolean bFileMode
+        boolean backupCopy, boolean bDryRun, boolean bFileMode,
+        int prefixMode
     )
     {
         if ((thread != null) && (thread.isBusy))
@@ -59,7 +60,7 @@ public class MyApplication extends Application
             */
             thread = new WorkerThread(this);
         }
-        thread.setParameters(activity, srcUri, dstUri, scheme, backupCopy, bDryRun, bFileMode);
+        thread.setParameters(activity, srcUri, dstUri, scheme, backupCopy, bDryRun, bFileMode, prefixMode);
         mActivityForThread = activity;
         executor.execute(thread);
         return 0;

@@ -477,7 +477,7 @@ public class MainActivity extends AppCompatActivity
 
         MyApplication app = (MyApplication) getApplication();
         String scheme = (bFlatten) ? "flat" :  StatusAndPrefs.mFolderScheme;
-        int result = app.runWorkerThread(this, mDcimTreeUri, mDestTreeUri, scheme, StatusAndPrefs.mbBackupCopy, StatusAndPrefs.mbDryRun, bFileMode);
+        int result = app.runWorkerThread(this, mDcimTreeUri, mDestTreeUri, scheme, StatusAndPrefs.mbBackupCopy, StatusAndPrefs.mbDryRun, bFileMode, StatusAndPrefs.mPrefixMode);
         if (result == 0)
         {
             mCurrHomeText = "";

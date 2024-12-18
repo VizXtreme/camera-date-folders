@@ -55,18 +55,18 @@ public class PreferencesFragment extends Fragment
     }
 
     // convert radio button id to prefix handling in text form
-    private static String prefixId2Val(int id)
+    private static int prefixId2Val(int id)
     {
         if (id == R.id.button_prefix_leave)
-            return "leave";
+            return 0;
         else
         if (id == R.id.button_prefix_append)
-            return "append";
+            return 1;
         else
         if (id == R.id.button_prefix_remove)
-            return "remove";
+            return 2;
         else
-            return "leave";
+            return 0;
     }
 
     // convert scheme in text form to radio button id
@@ -93,15 +93,15 @@ public class PreferencesFragment extends Fragment
     }
 
     // convert prefix in text form to radio button id
-    private static int prefixVal2Id(final String val)
+    private static int prefixVal2Id(final int val)
     {
         switch (val)
         {
-            case "leave":
+            case 0:
                 return R.id.button_prefix_leave;
-            case "append":
+            case 1:
                 return R.id.button_prefix_append;
-            case "remove":
+            case 2:
                 return R.id.button_prefix_remove;
         }
         return R.id.button_prefix_leave;
@@ -212,7 +212,7 @@ public class PreferencesFragment extends Fragment
         //
 
         final RadioGroup prefixHandling = binding.prefixRadioGroup;
-        prefixHandling.check(prefixVal2Id(StatusAndPrefs.mPrefixHandling));
+        prefixHandling.check(prefixVal2Id(StatusAndPrefs.mPrefixMode));
         prefixHandling.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener()
         {
             @Override
@@ -220,7 +220,7 @@ public class PreferencesFragment extends Fragment
             {
                 int id = view.getCheckedRadioButtonId();
                 Log.d(LOG_TAG, "checked Button id = " + id);
-                final String val = prefixId2Val(id);
+                final int val = prefixId2Val(id);
                 StatusAndPrefs.writeValue(StatusAndPrefs.PREF_PREFIX_HANDLING, val);
             }
         });

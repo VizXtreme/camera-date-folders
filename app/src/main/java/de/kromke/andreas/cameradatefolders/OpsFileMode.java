@@ -74,10 +74,11 @@ public class OpsFileMode extends Utils
         Context context,
         Uri treeUri, Uri destUri,
         boolean backupCopy, boolean dryRun,
-        boolean sortYear, boolean sortMonth, boolean sortDay
+        boolean sortYear, boolean sortMonth, boolean sortDay,
+        int prefixMode
     )
     {
-        super(context, backupCopy, dryRun, sortYear, sortMonth, sortDay);
+        super(context, backupCopy, dryRun, sortYear, sortMonth, sortDay, prefixMode);
 
         if (pathsOverlap(treeUri, destUri))
         {
@@ -231,21 +232,24 @@ public class OpsFileMode extends Utils
 
         if ((mbMoveDocumentSupported) && (!op.bCopy))
         {
-            File dstFile = new File(dstDirectory, op.srcFile.getName());
+            final String srcName = op.srcFile.getName();
+            final String destName = getDestFileName(srcName, mPrefixMode);
+            File dstFile = new File(dstDirectory, destName);
             try
             {
                 if (op.srcFile.renameTo(dstFile))
                 {
-                    return true;
+                    return true;    // success!
                 }
                 Log.e(LOG_TAG, "cannot move file to " + ((newDirectory) ? "new" : "existing") + " directory");
                 mMoveFileFailures++;
-                return false;
+                return false;   // severe error, giving up
             } catch (Exception e)
             {
                 mbMoveDocumentSupported = false;
                 Log.e(LOG_TAG, "cannot move file to " + ((newDirectory) ? "new" : "existing") + "directory");
                 Log.e(LOG_TAG, "mvFile() -- exception " + e);
+                // non-fatal error, continue with copy/delete operation instead
             }
         }
 
@@ -494,7 +498,8 @@ public class OpsFileMode extends Utils
         // open source file for reading
         //
 
-        final String name = sourceDocument.getName();
+        final String srcName = sourceDocument.getName();
+        final String destName = getDestFileName(srcName, mPrefixMode);
 
         InputStream is;
         //noinspection RedundantSuppression
@@ -513,7 +518,7 @@ public class OpsFileMode extends Utils
         // create a new destination file
         //
 
-        File df = new File(targetParentDocument, name);
+        File df = new File(targetParentDocument, destName);
         try
         {
             if (!df.createNewFile())

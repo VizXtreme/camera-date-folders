@@ -82,9 +82,16 @@ public class OpsSafMode extends Utils
      * constructor
      *
      *************************************************************************/
-    OpsSafMode(Context context, Uri treeUri, Uri destUri, boolean backupCopy, boolean dryRun, boolean sortYear, boolean sortMonth, boolean sortDay)
+    OpsSafMode
+    (
+        Context context,
+        Uri treeUri, Uri destUri,
+        boolean backupCopy, boolean dryRun,
+        boolean sortYear, boolean sortMonth, boolean sortDay,
+        int prefixMode
+    )
     {
-        super(context, backupCopy, dryRun, sortYear, sortMonth, sortDay);
+        super(context, backupCopy, dryRun, sortYear, sortMonth, sortDay, prefixMode);
         mResolver = mContext.getContentResolver();
         if (pathsOverlap(treeUri, destUri))
         {
@@ -250,10 +257,16 @@ public class OpsSafMode extends Utils
         }
 
         //
-        // First try atomic move operation (in destination folder or if no destination was given)
+        // First try atomic move operation (in destination folder or if no destination was given).
+        // Note that it is not possible to move and rename.
         //
 
-        if ((mbMoveDocumentSupported) && (!op.bCopy))
+        final String srcName = op.srcFile.getName();
+        final String destName = getDestFileName(srcName, mPrefixMode);
+        assert srcName != null;
+        boolean bLeaveName = srcName.equals(destName);
+
+        if ((mbMoveDocumentSupported) && (!op.bCopy) && bLeaveName)
         {
             try
             {
@@ -279,7 +292,7 @@ public class OpsSafMode extends Utils
         // and delete source, if to be moved from source to destination folder or inside destination folder
         //
 
-        if ((mDestDir != null) && mbCopyDocumentSupported)
+        if ((mDestDir != null) && mbCopyDocumentSupported && bLeaveName)
         {
             try
             {
@@ -305,7 +318,7 @@ public class OpsSafMode extends Utils
         }
 
         //
-        // Finally do copy-delete operation manually
+        // Finally, if all else failed, do copy-delete operation manually
         //
 
         if (copyFile(op.srcFile, dstDirectory, !op.bCopy))
@@ -539,12 +552,14 @@ public class OpsSafMode extends Utils
         boolean bRemoveSrcOnSuccess
     )
     {
+        final String srcName = sourceDocument.getName();
+        final String destName = getDestFileName(srcName, mPrefixMode);
+
         //
         // open source file for reading
         //
 
-        final String name = sourceDocument.getName();
-        if (name == null)
+        if (srcName == null)
         {
             Log.e(LOG_TAG, "cannot get name: " + sourceDocument.getUri());
             return false;
@@ -574,14 +589,14 @@ public class OpsSafMode extends Utils
         String type = mResolver.getType(sourceDocument.getUri());
         if (type == null)
         {
-            Log.w(LOG_TAG, "no mime type for source file " + name + " in: " + sourceDocument.getUri());
+            Log.w(LOG_TAG, "no mime type for source file " + srcName + " in: " + sourceDocument.getUri());
             type = "application/octet-stream";      // used generic type instead
         }
-        DocumentFile df = targetParentDocument.createFile(type, name);
+        DocumentFile df = targetParentDocument.createFile(type, destName);
         if (df == null)
         {
             // cannot create destination file: fatal failure
-            Log.e(LOG_TAG, "cannot create destination file " + name + " in: " + targetParentDocument.getUri());
+            Log.e(LOG_TAG, "cannot create destination file " + destName + " in: " + targetParentDocument.getUri());
             closeStream(is);
             return false;
         }

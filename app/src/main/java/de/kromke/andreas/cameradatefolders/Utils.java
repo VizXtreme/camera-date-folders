@@ -53,6 +53,7 @@ public class Utils
     protected boolean mSortYear;
     protected boolean mSortMonth;
     protected boolean mSortDay;
+    protected int mPrefixMode;
     public ArrayList<mvOp> mOps = null;
     protected Set<String> mFilesInDest = null;    // list of photo files in destination directory
 
@@ -99,7 +100,7 @@ public class Utils
      * constructor, also chooses between File and SAF mode
      *
      *************************************************************************/
-    Utils(Context context, boolean backupCopy, boolean dryRun, boolean sortYear, boolean sortMonth, boolean sortDay)
+    Utils(Context context, boolean backupCopy, boolean dryRun, boolean sortYear, boolean sortMonth, boolean sortDay, int prefixMode)
     {
         mContext = context;
         mbBackupCopy = backupCopy;
@@ -107,6 +108,7 @@ public class Utils
         mSortYear = sortYear;
         mSortMonth = sortMonth;
         mSortDay = sortDay;
+        mPrefixMode = prefixMode;
     }
 
 
@@ -179,15 +181,17 @@ public class Utils
     {
         if (bIsInDestDir)
         {
-            // gather filenames in destination directory
+            // Gather filenames in destination directory.
             Log.d(LOG_TAG, "gatherDirectory() -- camera file found in dest: " + path + "/" + name);
             mFilesInDest.add(name);
         }
         else
         if (mFilesInDest != null)
         {
-            // check if file is already stored in destination
-            if (mFilesInDest.contains(name))
+            // Gather filenames in source directory.
+            // Check if file is already stored in destination.
+            final String destName = getDestFileName(name, mPrefixMode);
+            if (mFilesInDest.contains(destName))
             {
                 Log.d(LOG_TAG, "gatherDirectory() -- old camera file found: " + path + "/" + name);
                 return false;
@@ -383,6 +387,63 @@ public class Utils
         }
 
         return ret;
+    }
+
+
+    /**************************************************************************
+     *
+     * leave (0), append (1) or remove (2) prefix from source file name
+     *
+     *************************************************************************/
+    protected String getDestFileName(final String srcName, int prefixMode)
+    {
+        if (prefixMode == 0)
+        {
+            return srcName;
+        }
+
+        //
+        // skip prefix consisting of non-digit characters
+        //
+
+        int i;
+        for (i = 0; i < srcName.length(); i++)
+        {
+            char c = srcName.charAt(i);
+            if (Character.isDigit(c))
+            {
+                break;
+            }
+        }
+
+        // remove prefix
+        String destName = srcName.substring(i);
+
+        // append prefix
+        if (prefixMode == 1)
+        {
+            String prefix = srcName.substring(0, i);
+            i = destName.lastIndexOf('.');
+            if (i > 0)
+            {
+                // split file name to base name and extension
+                String extension = destName.substring(i);
+                destName = destName.substring(0, i);
+
+                //
+                // append prefix
+                //
+
+                if (prefix.endsWith("_"))
+                {
+                    // "PXL_" -> "_PXL"
+                    prefix = "_" + prefix.substring(0, prefix.length() - 1);
+                }
+                destName = destName + prefix + extension;
+            }
+        }
+
+        return destName;
     }
 
 

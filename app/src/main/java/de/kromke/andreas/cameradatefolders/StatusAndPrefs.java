@@ -46,7 +46,7 @@ public class StatusAndPrefs
     public static String mCamFolder = null;
     public static String mDestFolder = null;
     public static String mFolderScheme = null;
-    public static String mPrefixHandling = null;
+    public static int mPrefixMode = 0;  // 0=leave 1=append 3=remove
     public static boolean mbBackupCopy = false;
     public static boolean mbFullFileAccess = false;
     public static boolean mbForceFileMode = false;
@@ -76,7 +76,7 @@ public class StatusAndPrefs
         mCamFolder = mPrefs.getString(PREF_CAM_FOLDER_URI, null);
         mDestFolder = mPrefs.getString(PREF_DEST_FOLDER_URI, null);
         mFolderScheme = mPrefs.getString(PREF_FOLDER_SCHEME, "ymd");
-        mPrefixHandling = mPrefs.getString(PREF_PREFIX_HANDLING, "leave");
+        mPrefixMode = mPrefs.getInt(PREF_PREFIX_HANDLING, 0);
         mbBackupCopy = mPrefs.getBoolean(PREF_BACKUP_COPY, false);
         mbForceFileMode = mPrefs.getBoolean(PREF_FORCE_FILE_MODE, false);
         mbDryRun = mPrefs.getBoolean(PREF_DRY_RUN, false);
@@ -156,8 +156,7 @@ public class StatusAndPrefs
                 break;
 
             case PREF_PREFIX_HANDLING:
-                mPrefixHandling = (String) val;
-                isString = true;
+                mPrefixMode = (int) val;
                 break;
 
             case PREF_BACKUP_COPY:
@@ -191,6 +190,10 @@ public class StatusAndPrefs
             if (isBool)
             {
                 prefEditor.putBoolean(key, (boolean) val);
+            }
+            else
+            {
+                prefEditor.putInt(key, (int) val);
             }
 
             prefEditor.apply();

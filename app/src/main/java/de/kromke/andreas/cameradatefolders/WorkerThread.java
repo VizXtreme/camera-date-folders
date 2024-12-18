@@ -40,6 +40,7 @@ class WorkerThread implements Runnable, Utils.ProgressCallBack
     private boolean mbBackupCopy = false;
     private boolean mbDryRun = false;
     private boolean mbFileMode = false;
+    private int mPrefixMode = 0;
     private Utils mUtils = null;
     // result
     private static final int nMaxFailures = 10;
@@ -57,7 +58,8 @@ class WorkerThread implements Runnable, Utils.ProgressCallBack
         Context context,
         Uri srcUri, Uri dstUri,
         String scheme,
-        boolean backupCopy, boolean bDryRun, boolean bFileMode
+        boolean backupCopy, boolean bDryRun, boolean bFileMode,
+        int prefixMode
     )
     {
         mTreeUri = srcUri;
@@ -109,6 +111,7 @@ class WorkerThread implements Runnable, Utils.ProgressCallBack
         mbBackupCopy = backupCopy;
         mbDryRun = bDryRun;
         mbFileMode = bFileMode;
+        mPrefixMode = prefixMode;
         mContext = context;
     }
 
@@ -161,11 +164,11 @@ class WorkerThread implements Runnable, Utils.ProgressCallBack
 
             if (mbFileMode)
             {
-                mUtils = new OpsFileMode(mContext, mTreeUri, mDestTreeUri, mbBackupCopy, mbDryRun, mbSortYear, mbSortMonth, mbSortDay);
+                mUtils = new OpsFileMode(mContext, mTreeUri, mDestTreeUri, mbBackupCopy, mbDryRun, mbSortYear, mbSortMonth, mbSortDay, mPrefixMode);
             }
             else
             {
-                mUtils = new OpsSafMode(mContext, mTreeUri, mDestTreeUri, mbBackupCopy, mbDryRun, mbSortYear, mbSortMonth, mbSortDay);
+                mUtils = new OpsSafMode(mContext, mTreeUri, mDestTreeUri, mbBackupCopy, mbDryRun, mbSortYear, mbSortMonth, mbSortDay, mPrefixMode);
             }
 
             if (mUtils.mErrCode < 0)
