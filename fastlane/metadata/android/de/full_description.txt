@@ -4,6 +4,8 @@ Die Fotos können innerhalb ihrer Ordnerstruktur bleiben oder in ein anderes Ver
 
 Es sind bis zu drei Ebenen möglich: Jahr, Monat und Tag. Die Sortierung kann rückgängig gemacht werden, d.h. alle Dateien werden dann wieder ins selbe Verzeichnis verschoben.
 
+Auf Wunsch kann ein Dateinamen-Präfix wie "PXL_" oder "IMG_" stattdessen angehängt oder auch ganz entfernt werden. Diese Umbenennung kann nicht rückgängig gemacht werden.
+
 Das Programm liest keine Metadaten (EXIF), sondern verläßt sich auf die Datumangaben im Dateinamen.
 
 Um Googles restriktive Richtlinien zu erfüllen, muß die Play-Store-Version dieses Programms auf Geräten mit Android 11 oder neuer Googles proprietäres "Storage Access Framework" für alle Dateizugriffe verwenden. Das Programm ist deshalb beim Sortieren extrem langsam. Diese Einschränkung gilt nur teilweise, wenn das Programm auf älteren Android-Versionen läuft, und gar nicht für die F-Droid-Version. In diesem Fall kann man herkömmliche Dateizugriffe aktivieren und sich über einen Geschwindigkeitszuwachs von Faktor 90 (!) freuen.

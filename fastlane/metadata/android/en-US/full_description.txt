@@ -4,6 +4,8 @@ Either keep photos inside the camera folder tree or move or copy them to a separ
 
 Up to three levels are supported: year, month and day. The sorting can be reverted, i.e. all photos can be moved back to the camera base directory.
 
+On the demand a file name prefix like "IMG_" or "PXL_" can be appended instead or completely removed. Note that this operation is not revertible.
+
 The program does not read metadata (EXIF) from the photo files, instead it uses the data information encoded in the filenames.
 
 To meet Google's restrictive policy, the Play Store variant of the program must use Google's proprietary Storage Access Framework when running on Android 11 or newer. As a consequence, file operations are extremely slow. This restriction partially exists also for older Android versions and not at all for the F-Droid version of the program. In this case standard file access calls can be activated alternatively, which accelerate the file operations with a factor of approximately 90 (!).

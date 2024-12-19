@@ -175,6 +175,7 @@ public class Utils
      * (Phase 1): check if file must be moved/copied in case path does not match
      *
      * path is only for log
+     * bIsDestDir is only used when the user specified a destination directory
      *
      *************************************************************************/
     protected boolean mustBeProcessed(final String name, final String path, boolean bIsInDestDir)
@@ -190,6 +191,8 @@ public class Utils
         {
             // Gather filenames in source directory.
             // Check if file is already stored in destination.
+            // Note that mFilesInDest is not null, but empty in case the user has not specified
+            // a destination directory.
             final String destName = getDestFileName(name, mPrefixMode);
             if (mFilesInDest.contains(destName))
             {
@@ -201,6 +204,7 @@ public class Utils
             }
         } else
         {
+            // TODO: clarify under which circumstances we get here
             Log.d(LOG_TAG, "gatherDirectory() -- camera file found: " + path + "/" + name);
         }
         return true;
@@ -395,7 +399,7 @@ public class Utils
      * leave (0), append (1) or remove (2) prefix from source file name
      *
      *************************************************************************/
-    protected String getDestFileName(final String srcName, int prefixMode)
+    static String getDestFileName(final String srcName, int prefixMode)
     {
         if (prefixMode == 0)
         {

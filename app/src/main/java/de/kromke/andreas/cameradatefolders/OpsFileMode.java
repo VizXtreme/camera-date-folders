@@ -277,7 +277,13 @@ public class OpsFileMode extends Utils
      * return number of entries in that directory
      *
      *************************************************************************/
-    private int gatherDirectory(File dd, String path,  boolean bProcessingDestination, ProgressCallBack callback)
+    private int gatherDirectory
+    (
+        File dd,
+        String path,
+        boolean bProcessingDestination,     // only if a destination path is specified by user
+        ProgressCallBack callback
+    )
     {
         Log.d(LOG_TAG, "gatherDirectoryFileMode() -- ENTER DIRECTORY " + dd.getName());
         int nEntries; // dummy
@@ -347,15 +353,23 @@ public class OpsFileMode extends Utils
                         boolean bProcess = mustBeProcessed(name, path, bProcessingDestination);
                         if (bProcess)
                         {
-                            mvOpFile op = new mvOpFile();
-                            op.srcPath = path + "/";
-                            op.dstPath = getDestPath(date);
-                            if (bComparePaths && op.srcPath.equals(op.dstPath))
+                            final String srcPath = path + "/";
+                            final String destPath = getDestPath(date);
+                            final String destName = getDestFileName(name, mPrefixMode);
+
+                            if (bComparePaths && srcPath.equals(destPath) && name.equals(destName))
                             {
                                 Log.d(LOG_TAG, "   already sorted to its date directory");
                                 mUnchangedFiles++;
                             } else
                             {
+                                if (srcPath.equals(destPath) && !name.equals(destName))
+                                {
+                                    Log.d(LOG_TAG, "   must be renamed to " + destName);
+                                }
+                                mvOpFile op = new mvOpFile();
+                                op.srcPath = srcPath;
+                                op.dstPath = destPath;
                                 op.srcDirectory = dd;
                                 op.srcFile = df;
                                 op.bCopy = (!bProcessingDestination && mbBackupCopy);

@@ -223,8 +223,17 @@ class WorkerThread implements Runnable, Utils.ProgressCallBack
                             break;
                         }
 
-                        String fileName = op.getName();
-                        Log.d(LOG_TAG, " mv " + op.getSrcPath() + fileName + " ==> " + op.getDstPath());
+                        String srcFileName = op.getName();
+                        if (mPrefixMode > 0)
+                        {
+                            String destFilename = Utils.getDestFileName(srcFileName, mPrefixMode);
+                            Log.d(LOG_TAG, " mv " + op.getSrcPath() + srcFileName + " ==> " + op.getDstPath() + destFilename);
+                        }
+                        else
+                        {
+                            Log.d(LOG_TAG, " mv " + op.getSrcPath() + srcFileName + " ==> " + op.getDstPath());
+                        }
+
                         if (mbDryRun)
                         {
                             nSuccess++;
@@ -240,7 +249,7 @@ class WorkerThread implements Runnable, Utils.ProgressCallBack
                             }
                         }
                         i++;
-                        tellProgress(fileName + " (" + i + "/" + mUtils.mOps.size() + ")");
+                        tellProgress(srcFileName + " (" + i + "/" + mUtils.mOps.size() + ")");
                         if (nFailure > nMaxFailures)
                         {
                             break;

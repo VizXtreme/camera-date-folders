@@ -1,2 +1,3 @@
 - New Gradle and libraries, minimum SDK 19 -> 21
+- File name prefixes like "IMG_" can be appended instead or completely removed.
 - (v1.3.3)

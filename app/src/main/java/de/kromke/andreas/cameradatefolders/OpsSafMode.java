@@ -266,15 +266,28 @@ public class OpsSafMode extends Utils
         assert srcName != null;
         boolean bLeaveName = srcName.equals(destName);
 
-        if ((mbMoveDocumentSupported) && (!op.bCopy) && bLeaveName)
+        // shortcut for renaming without moving
+        if (op.srcPath.equals(op.dstPath) && !bLeaveName)
+        {
+            return renameFile(dstDirectory, srcName, destName);
+        }
+
+        if ((mbMoveDocumentSupported) && (!op.bCopy))
         {
             try
             {
                 Uri newUri = DocumentsContract.moveDocument(mResolver, op.srcFile.getUri(), op.srcDirectory.getUri(), dstDirectory.getUri());
                 if (newUri != null)
                 {
-                    // move was successful
-                    return true;
+                    // move was successful. Do we have to rename also?
+                    if (!bLeaveName)
+                    {
+                        return renameFile(dstDirectory, srcName, destName);
+                    }
+                    else
+                    {
+                        return true;
+                    }
                 }
                 Log.e(LOG_TAG, "cannot move file to " + ((newDirectory) ? "new" : "existing") + " directory");
                 mMoveFileFailures++;
@@ -292,7 +305,7 @@ public class OpsSafMode extends Utils
         // and delete source, if to be moved from source to destination folder or inside destination folder
         //
 
-        if ((mDestDir != null) && mbCopyDocumentSupported && bLeaveName)
+        if ((mDestDir != null) && mbCopyDocumentSupported)
         {
             try
             {
@@ -304,7 +317,14 @@ public class OpsSafMode extends Utils
                     {
                         op.srcFile.delete();
                     }
-                    return true;
+                    if (!bLeaveName)
+                    {
+                        return renameFile(dstDirectory, srcName, destName);
+                    }
+                    else
+                    {
+                        return true;
+                    }
                 }
                 Log.e(LOG_TAG, "cannot copy file to " + ((newDirectory) ? "new" : "existing") + " directory");
                 return false;
@@ -340,7 +360,13 @@ public class OpsSafMode extends Utils
      * return number of entries in that directory
      *
      *************************************************************************/
-    private int gatherDirectory(DocumentFile dd, String path, boolean bProcessingDestination, ProgressCallBack callback)
+    private int gatherDirectory
+    (
+        DocumentFile dd,
+        String path,
+        boolean bProcessingDestination,     // only if a destination path is specified by user
+        ProgressCallBack callback
+    )
     {
         Log.d(LOG_TAG, "gatherDirectory() -- ENTER DIRECTORY " + dd.getName());
         int nEntries;
@@ -409,18 +435,26 @@ public class OpsSafMode extends Utils
                     if (date != null)
                     {
                         // files in source that are already present in destination must not be processed
+                        // files in destination must always be processed
                         boolean bProcess = mustBeProcessed(name, path, bProcessingDestination);
                         if (bProcess)
                         {
-                            mvOpSaf op = new mvOpSaf();
-                            op.srcPath = path + "/";
-                            op.dstPath = getDestPath(date);
-                            if (bComparePaths && op.srcPath.equals(op.dstPath))
+                            final String srcPath = path + "/";
+                            final String destPath = getDestPath(date);
+                            final String destName = getDestFileName(name, mPrefixMode);
+                            if (bComparePaths && srcPath.equals(destPath) && name.equals(destName))
                             {
                                 Log.d(LOG_TAG, "   already sorted to its date directory");
                                 mUnchangedFiles++;
                             } else
                             {
+                                if (srcPath.equals(destPath) && !name.equals(destName))
+                                {
+                                    Log.d(LOG_TAG, "   must be renamed to " + destName);
+                                }
+                                mvOpSaf op = new mvOpSaf();
+                                op.srcPath = srcPath;
+                                op.dstPath = destPath;
                                 op.srcDirectory = dd;
                                 op.srcFile = df;
                                 op.bCopy = (!bProcessingDestination && mbBackupCopy);
@@ -537,6 +571,32 @@ public class OpsSafMode extends Utils
         }
         DocumentFile destDir = (mDestDir != null) ? mDestDir : mRootDir;
         tidyDirectory(destDir, "", callback);
+    }
+
+
+    /**************************************************************************
+     *
+     * rename file, helper for mvFileSaf
+     *
+     *************************************************************************/
+    private boolean renameFile
+    (
+        DocumentFile dstDirectory,
+        final String srcName, final String destName
+    )
+    {
+        boolean res = false;
+        DocumentFile destFile = dstDirectory.findFile(srcName);
+        if (destFile != null)
+        {
+            res = destFile.renameTo(destName);
+        }
+        if (!res)
+        {
+            Log.e(LOG_TAG, "could move file " + srcName + ", but could not rename to " + destName);
+            mMoveFileFailures++;
+        }
+        return res;
     }
 
 
