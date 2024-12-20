@@ -2,7 +2,7 @@ Verschiebt alle Fotos, die auf dem Gerät im Kamera-Verzeichnis liegen, in datum
 
 Die Fotos können innerhalb ihrer Ordnerstruktur bleiben oder in ein anderes Verzeichnis verschoben oder kopiert werden. Das ist eine einfache Art der Datensicherung.
 
-Es sind bis zu drei Ebenen möglich: Jahr, Monat und Tag. Die Sortierung kann rückgängig gemacht werden, d.h. alle Dateien werden dann wieder ins selbe Verzeichnis verschoben.
+Es sind bis zu drei Ebenen möglich: Jahr, Monat und Tag. Die Sortierung kann rückgängig gemacht werden, d.h. alle Dateien werden dann wieder ins selbe Verzeichnis verschoben (aber, wenn ein Zielverzeichnis angegeben wurde, nicht wieder ins Kamera-Verzeichnis zurück).
 
 Auf Wunsch kann ein Dateinamen-Präfix wie "PXL_" oder "IMG_" stattdessen angehängt oder auch ganz entfernt werden. Diese Umbenennung kann nicht rückgängig gemacht werden.
 

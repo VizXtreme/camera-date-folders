@@ -436,6 +436,8 @@ public class MainActivity extends AppCompatActivity
      *
      * helper to run thread
      *
+     * bFlatten: true for REVERT, otherwise false
+     *
      *************************************************************************/
     private void runThread(boolean bFlatten)
     {

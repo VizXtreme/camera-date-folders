@@ -2,7 +2,7 @@ Sorts all photos, located in the device's camera folder, into a date specific su
 
 Either keep photos inside the camera folder tree or move or copy them to a separate directory. This can also used as a simple backup method.
 
-Up to three levels are supported: year, month and day. The sorting can be reverted, i.e. all photos can be moved back to the camera base directory.
+Up to three levels are supported: year, month and day. The sorting can be reverted, i.e. all photos can be moved back to the base directory (but not back to the camera directory in case a destination directory is specified).
 
 On the demand a file name prefix like "IMG_" or "PXL_" can be appended instead or completely removed. Note that this operation is not revertible.
 
