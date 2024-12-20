@@ -235,21 +235,25 @@ public class OpsFileMode extends Utils
             final String srcName = op.srcFile.getName();
             final String destName = getDestFileName(srcName, mPrefixMode);
             File dstFile = new File(dstDirectory, destName);
-            try
+            boolean bSameDevice = sameDevice(op.srcFile, dstFile);
+            if (bSameDevice)
             {
-                if (op.srcFile.renameTo(dstFile))
+                try
                 {
-                    return true;    // success!
+                    if (op.srcFile.renameTo(dstFile))
+                    {
+                        return true;    // success!
+                    }
+                    Log.e(LOG_TAG, "cannot move file to " + ((newDirectory) ? "new" : "existing") + " directory");
+                    mMoveFileFailures++;
+                    return false;   // severe error, giving up
+                } catch (Exception e)
+                {
+                    mbMoveDocumentSupported = false;
+                    Log.e(LOG_TAG, "cannot move file to " + ((newDirectory) ? "new" : "existing") + "directory");
+                    Log.e(LOG_TAG, "mvFile() -- exception " + e);
+                    // non-fatal error, continue with copy/delete operation instead
                 }
-                Log.e(LOG_TAG, "cannot move file to " + ((newDirectory) ? "new" : "existing") + " directory");
-                mMoveFileFailures++;
-                return false;   // severe error, giving up
-            } catch (Exception e)
-            {
-                mbMoveDocumentSupported = false;
-                Log.e(LOG_TAG, "cannot move file to " + ((newDirectory) ? "new" : "existing") + "directory");
-                Log.e(LOG_TAG, "mvFile() -- exception " + e);
-                // non-fatal error, continue with copy/delete operation instead
             }
         }
 
@@ -573,6 +577,55 @@ public class OpsFileMode extends Utils
         }
 
         return false;
+    }
+
+
+    /**************************************************************************
+     *
+     * Check if two paths are located on the same device
+     *
+     * Note that this should be available from "import jnr.posix" via
+     * the Stat() function, but is not.
+     *
+     *************************************************************************/
+    private boolean sameDevice(final File file1, final File file2)
+    {
+        final String prefix = "/storage/";
+        String path1 = file1.getAbsolutePath();
+        String path2 = file2.getAbsolutePath();
+
+        // strip common prefix
+        if (path1.startsWith(prefix) && path2.startsWith(prefix))
+        {
+            path1 = path1.substring(prefix.length());
+            path2 = path2.substring(prefix.length());
+        }
+        else
+        if (path1.startsWith("/") && path2.startsWith("/"))
+        {
+            path1 = path1.substring(prefix.length());
+            path2 = path2.substring(prefix.length());
+        }
+
+        int index1 = path1.indexOf('/');
+        int index2 = path1.indexOf('/');
+
+        if ((index1 < 0) || (index2 < 0))
+        {
+            // In fact we are not sure here...
+            return true;
+        }
+
+        if (index1 != index2)
+        {
+            return false;
+        }
+        else
+        {
+            path1 = path1.substring(0, index1);
+            path2 = path2.substring(0, index2);
+            return path1.equals(path2);
+        }
     }
 
 }
