@@ -36,60 +36,67 @@
                 <RadioButton
                     android:id="@+id/button_scheme_y_m_d"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="32dp"
                     android:text="1965/1965-07/1965-07-21"
                     tools:ignore="HardcodedText" />
 
                 <RadioButton
                     android:id="@+id/button_scheme_m_d"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="32dp"
                     android:text="1965-07/1965-07-21"
                     tools:ignore="HardcodedText" />
 
                 <RadioButton
                     android:id="@+id/button_scheme_y_d"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="32dp"
                     android:text="1965/1965-07-21"
                     tools:ignore="HardcodedText" />
 
                 <RadioButton
                     android:id="@+id/button_scheme_y_m"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="32dp"
                     android:text="1965/1965-07"
                     tools:ignore="HardcodedText" />
 
                 <RadioButton
                     android:id="@+id/button_scheme_d"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="32dp"
                     android:text="1965-07-21"
                     tools:ignore="HardcodedText" />
 
                 <RadioButton
                     android:id="@+id/button_scheme_m"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="32dp"
                     android:text="1965-07"
                     tools:ignore="HardcodedText" />
 
                 <RadioButton
                     android:id="@+id/button_scheme_y"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="32dp"
                     android:text="1965"
                     tools:ignore="HardcodedText" />
 
             </RadioGroup>
 
             <com.google.android.material.switchmaterial.SwitchMaterial
-                android:id="@+id/switchBackupCopy"
+                android:id="@+id/switchCompactFolderNames"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="24dp"
                 android:layout_marginTop="24dp"
+                android:text="@string/str_compact_scheme" />
+
+            <com.google.android.material.switchmaterial.SwitchMaterial
+                android:id="@+id/switchBackupCopy"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
                 android:text="@string/str_backup_copy" />
 
             <com.google.android.material.switchmaterial.SwitchMaterial
@@ -124,21 +131,21 @@
                 <RadioButton
                     android:id="@+id/button_prefix_leave"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="32dp"
                     android:text="@string/str_prefix_leave"
                     tools:ignore="HardcodedText" />
 
                 <RadioButton
                     android:id="@+id/button_prefix_append"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="32dp"
                     android:text="@string/str_prefix_append"
                     tools:ignore="HardcodedText" />
 
                 <RadioButton
                     android:id="@+id/button_prefix_remove"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="32dp"
                     android:text="@string/str_prefix_remove"
                     tools:ignore="HardcodedText" />
 

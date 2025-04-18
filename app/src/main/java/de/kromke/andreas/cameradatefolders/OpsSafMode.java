@@ -87,11 +87,11 @@ public class OpsSafMode extends Utils
         Context context,
         Uri treeUri, Uri destUri,
         boolean backupCopy, boolean dryRun,
-        boolean sortYear, boolean sortMonth, boolean sortDay,
+        boolean sortYear, boolean sortMonth, boolean sortDay, boolean bCompactFolderNames,
         int prefixMode
     )
     {
-        super(context, backupCopy, dryRun, sortYear, sortMonth, sortDay, prefixMode);
+        super(context, backupCopy, dryRun, sortYear, sortMonth, sortDay, bCompactFolderNames, prefixMode);
         mResolver = mContext.getContentResolver();
         if (pathsOverlap(treeUri, destUri))
         {

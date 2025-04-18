@@ -34,6 +34,7 @@ public class StatusAndPrefs
     public static final String PREF_DEST_FOLDER_URI = "prefDestFolderUri";
     public static final String PREF_FOLDER_SCHEME = "prefFolderScheme";
     public static final String PREF_PREFIX_HANDLING = "prefPrefixHandling";
+    public static final String PREF_COMPACT_FOLDER_NAMES = "prefCompactFolderNames";
     public static final String PREF_BACKUP_COPY = "prefBackupCopy";
     public static final String PREF_FORCE_FILE_MODE = "prefForceFileMode";
     public static final String PREF_DRY_RUN = "prefDryRun";
@@ -47,6 +48,7 @@ public class StatusAndPrefs
     public static String mDestFolder = null;
     public static String mFolderScheme = null;
     public static int mPrefixMode = 0;  // 0=leave 1=append 3=remove
+    public static boolean mbCompactFolderNames = false;
     public static boolean mbBackupCopy = false;
     public static boolean mbFullFileAccess = false;
     public static boolean mbForceFileMode = false;
@@ -77,6 +79,7 @@ public class StatusAndPrefs
         mDestFolder = mPrefs.getString(PREF_DEST_FOLDER_URI, null);
         mFolderScheme = mPrefs.getString(PREF_FOLDER_SCHEME, "ymd");
         mPrefixMode = mPrefs.getInt(PREF_PREFIX_HANDLING, 0);
+        mbCompactFolderNames = mPrefs.getBoolean(PREF_COMPACT_FOLDER_NAMES, false);
         mbBackupCopy = mPrefs.getBoolean(PREF_BACKUP_COPY, false);
         mbForceFileMode = mPrefs.getBoolean(PREF_FORCE_FILE_MODE, false);
         mbDryRun = mPrefs.getBoolean(PREF_DRY_RUN, false);
@@ -103,6 +106,7 @@ public class StatusAndPrefs
             prefEditor.remove(PREF_DEST_FOLDER_URI);
             prefEditor.remove(PREF_FOLDER_SCHEME);
             prefEditor.remove(PREF_PREFIX_HANDLING);
+            prefEditor.remove(PREF_COMPACT_FOLDER_NAMES);
             prefEditor.remove(PREF_BACKUP_COPY);
             prefEditor.remove(PREF_FORCE_FILE_MODE);
             prefEditor.remove(PREF_DRY_RUN);
@@ -157,6 +161,11 @@ public class StatusAndPrefs
 
             case PREF_PREFIX_HANDLING:
                 mPrefixMode = (int) val;
+                break;
+
+            case PREF_COMPACT_FOLDER_NAMES:
+                mbCompactFolderNames = (boolean) val;
+                isBool = true;
                 break;
 
             case PREF_BACKUP_COPY:

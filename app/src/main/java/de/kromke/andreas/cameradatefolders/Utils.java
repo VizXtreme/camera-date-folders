@@ -53,6 +53,7 @@ public class Utils
     protected boolean mSortYear;
     protected boolean mSortMonth;
     protected boolean mSortDay;
+    protected boolean mbCompactFolderNames;
     protected int mPrefixMode;
     public ArrayList<mvOp> mOps = null;
     protected Set<String> mFilesInDest = null;    // list of photo files in destination directory
@@ -100,7 +101,9 @@ public class Utils
      * constructor, also chooses between File and SAF mode
      *
      *************************************************************************/
-    Utils(Context context, boolean backupCopy, boolean dryRun, boolean sortYear, boolean sortMonth, boolean sortDay, int prefixMode)
+    Utils(Context context, boolean backupCopy, boolean dryRun,
+          boolean sortYear, boolean sortMonth, boolean sortDay, boolean bCompactFolderNames,
+          int prefixMode)
     {
         mContext = context;
         mbBackupCopy = backupCopy;
@@ -108,6 +111,7 @@ public class Utils
         mSortYear = sortYear;
         mSortMonth = sortMonth;
         mSortDay = sortDay;
+        mbCompactFolderNames = bCompactFolderNames;
         mPrefixMode = prefixMode;
     }
 
@@ -453,37 +457,56 @@ public class Utils
 
     /**************************************************************************
      *
-     * heuristic method to decide if a directory is date related
+     * Name scheme is yyyy or yyyy-mm or yyyy-mm-dd
+     * and in compact mode also mm or dd or mm-dd
      *
-     * name scheme is yyyy or yyyy-mm or yyyy-mm-dd
+     *************************************************************************/
+    private boolean matchesScheme(final String name, final String scheme)
+    {
+        int len = name.length();
+        if (len != scheme.length())
+        {
+            return false;       // simple mismatch
+        }
+
+        for (int i = 0; i < len; i++)
+        {
+            char sn = name.charAt(i);
+            char ss = scheme.charAt(i);
+            if (ss == '-')
+            {
+                if (sn != '-')
+                {
+                    return false;   // "-" must exactly match
+                }
+            }
+            else
+            if (!Character.isDigit(sn))
+            {
+                return false;   // otherwise scheme matches digits
+            }
+        }
+
+        return true;    // no mismatch found
+    }
+
+
+    /**************************************************************************
+     *
+     * Heuristic method to decide if a directory is date related.
+     * This is used to find and remove empty, unused directories.
+     *
+     * Name scheme is yyyy or yyyy-mm or yyyy-mm-dd
+     * and in compact mode also mm or dd or mm-dd
      *
      *************************************************************************/
     protected boolean isDateDirectory(final String name)
     {
-        int len = name.length();
-        if (len > 10)
-        {
-            return false;
-        }
-        int i;
-        for (i = 0; i < len; i++)
-        {
-            char c = name.charAt(i);
-            if ((i == 4) || (i == 7))
-            {
-                if (c != '-')
-                {
-                    return false;
-                }
-            }
-            else
-            if (!Character.isDigit(c))
-            {
-                return false;
-            }
-        }
-
-        return true;
+        return matchesScheme(name, "yyyy-mm-dd") ||
+               matchesScheme(name, "yyyy-mm") ||
+               matchesScheme(name, "yyyy") ||
+               matchesScheme(name, "mm-dd") ||
+               matchesScheme(name, "xx");
     }
 
 
@@ -501,11 +524,30 @@ public class Utils
         }
         if (mSortMonth)
         {
-            ret += date.year + "-" + date.month + "/";
+            if (mbCompactFolderNames && mSortYear)
+            {
+                ret += date.month + "/";    // year already added as own directory
+            }
+            else
+            {
+                ret += date.year + "-" + date.month + "/";
+            }
         }
         if (mSortDay)
         {
-            ret += date.year + "-" + date.month + "-" + date.day + "/";
+            if (mbCompactFolderNames && mSortMonth)
+            {
+                ret += date.day + "/";    // month already added as own directory
+            }
+            else
+            if (mbCompactFolderNames && mSortYear)
+            {
+                ret += date.month + "-" + date.day + "/";    // year already added as own directory, month not
+            }
+            else
+            {
+                ret += date.year + "-" + date.month + "-" + date.day + "/";
+            }
         }
         return ret;
     }

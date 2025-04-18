@@ -37,12 +37,14 @@ public class MyApplication extends Application
     private MainActivity mActivityForThread = null;  // null: thread is not running
 
     // called from UI thread
+    // scheme is either "flat" or "ymd" / "md" etc.
     int runWorkerThread
     (
         MainActivity activity,
         Uri srcUri, Uri dstUri,
         String scheme,
-        boolean backupCopy, boolean bDryRun, boolean bFileMode,
+        boolean bCompactFolderNames,
+        boolean bBackupCopy, boolean bDryRun, boolean bFileMode,
         int prefixMode
     )
     {
@@ -60,7 +62,7 @@ public class MyApplication extends Application
             */
             thread = new WorkerThread(this);
         }
-        thread.setParameters(activity, srcUri, dstUri, scheme, backupCopy, bDryRun, bFileMode, prefixMode);
+        thread.setParameters(activity, srcUri, dstUri, scheme, bCompactFolderNames, bBackupCopy, bDryRun, bFileMode, prefixMode);
         mActivityForThread = activity;
         executor.execute(thread);
         return 0;

@@ -395,8 +395,8 @@ public class MainActivity extends AppCompatActivity
                     // automatically adapt file mode accordingly
                     if (StatusAndPrefs.mbFullFileAccess != StatusAndPrefs.mbForceFileMode)
                     {
-                        StatusAndPrefs.mbForceFileMode = StatusAndPrefs.mbFullFileAccess;
-                        StatusAndPrefs.writeValue(StatusAndPrefs.PREF_FORCE_FILE_MODE, StatusAndPrefs.mbForceFileMode);
+                        // update mbForceFileMode and also write it to preferences
+                        StatusAndPrefs.writeValue(StatusAndPrefs.PREF_FORCE_FILE_MODE, StatusAndPrefs.mbFullFileAccess);
                         Toast.makeText(getApplicationContext(),
                                 (StatusAndPrefs.mbForceFileMode) ? R.string.str_auto_activate_file_mode : R.string.str_auto_deactivate_file_mode,
                                 Toast.LENGTH_LONG).show();
@@ -493,7 +493,10 @@ public class MainActivity extends AppCompatActivity
 
         MyApplication app = (MyApplication) getApplication();
         String scheme = (bFlatten) ? "flat" :  StatusAndPrefs.mFolderScheme;
-        int result = app.runWorkerThread(this, mDcimTreeUri, mDestTreeUri, scheme, StatusAndPrefs.mbBackupCopy, StatusAndPrefs.mbDryRun, bFileMode, StatusAndPrefs.mPrefixMode);
+        int result = app.runWorkerThread(this, mDcimTreeUri, mDestTreeUri,
+                                            scheme, StatusAndPrefs.mbCompactFolderNames,
+                                            StatusAndPrefs.mbBackupCopy, StatusAndPrefs.mbDryRun,
+                                            bFileMode, StatusAndPrefs.mPrefixMode);
         if (result == 0)
         {
             mCurrHomeText = "";

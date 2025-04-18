@@ -1,3 +1,5 @@
-- New Gradle.
+- New Gradle and libraries.
 - Automatically adapt File Mode to "Manage all files" granted or denied.
+- Padding reduced between radio buttons in Preferences GUI.
+- Optionally use compact folder names, e.g. "1965/07" instead of "1965/1965-07".
 - (v1.5)

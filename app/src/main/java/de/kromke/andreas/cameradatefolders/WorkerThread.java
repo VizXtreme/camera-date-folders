@@ -37,6 +37,7 @@ class WorkerThread implements Runnable, Utils.ProgressCallBack
     boolean mbSortYear = true;
     boolean mbSortMonth = true;
     boolean mbSortDay = true;
+    private boolean mbCompactFolderNames = false;
     private boolean mbBackupCopy = false;
     private boolean mbDryRun = false;
     private boolean mbFileMode = false;
@@ -58,7 +59,8 @@ class WorkerThread implements Runnable, Utils.ProgressCallBack
         Context context,
         Uri srcUri, Uri dstUri,
         String scheme,
-        boolean backupCopy, boolean bDryRun, boolean bFileMode,
+        boolean bCompactFolderNames,
+        boolean bBackupCopy, boolean bDryRun, boolean bFileMode,
         int prefixMode
     )
     {
@@ -107,8 +109,9 @@ class WorkerThread implements Runnable, Utils.ProgressCallBack
                 mbSortDay = false;
                 break;
         }
+        mbCompactFolderNames = bCompactFolderNames;
         mDestTreeUri = dstUri;
-        mbBackupCopy = backupCopy;
+        mbBackupCopy = bBackupCopy;
         mbDryRun = bDryRun;
         mbFileMode = bFileMode;
         mPrefixMode = prefixMode;
@@ -164,11 +167,11 @@ class WorkerThread implements Runnable, Utils.ProgressCallBack
 
             if (mbFileMode)
             {
-                mUtils = new OpsFileMode(mContext, mTreeUri, mDestTreeUri, mbBackupCopy, mbDryRun, mbSortYear, mbSortMonth, mbSortDay, mPrefixMode);
+                mUtils = new OpsFileMode(mContext, mTreeUri, mDestTreeUri, mbBackupCopy, mbDryRun, mbSortYear, mbSortMonth, mbSortDay, mbCompactFolderNames, mPrefixMode);
             }
             else
             {
-                mUtils = new OpsSafMode(mContext, mTreeUri, mDestTreeUri, mbBackupCopy, mbDryRun, mbSortYear, mbSortMonth, mbSortDay, mPrefixMode);
+                mUtils = new OpsSafMode(mContext, mTreeUri, mDestTreeUri, mbBackupCopy, mbDryRun, mbSortYear, mbSortMonth, mbSortDay, mbCompactFolderNames, mPrefixMode);
             }
 
             if (mUtils.mErrCode < 0)

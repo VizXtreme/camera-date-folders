@@ -107,6 +107,29 @@ public class PreferencesFragment extends Fragment
         return R.id.button_prefix_leave;
     }
 
+    // show either long or compact values
+    private void updateSubfolderSchemeValues()
+    {
+        boolean bl = !StatusAndPrefs.mbCompactFolderNames;
+
+        // The binding attributes are automatically generated to "databinding/FragmentPreferencesBinding.java"
+        binding.buttonSchemeYMD.setText((bl) ? "1965/1965-07/1965-07-21" : "1965/07/21");
+        binding.buttonSchemeMD.setText((bl) ? "1965-07/1965-07-21" : "1965-07/21");
+        binding.buttonSchemeYD.setText((bl) ? "1965/1965-07-21" : "1965/07-21");
+        binding.buttonSchemeYM.setText((bl) ? "1965/1965-07" : "1965/07");
+    }
+
+    // If a longer string is replaced by a shorter one in onCreateView() or onStart(),
+    // the UI object will get an adapted width. If later the user switches to a longer
+    // text, there will be a width overflow. Hopefully the UI object size has already been
+    // calculated in onResume, so that changing the text to a shorter one will not affect
+    // the UI element width.
+    public void onResume()
+    {
+        updateSubfolderSchemeValues();
+        super.onResume();
+    }
+
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState)
     {
@@ -116,10 +139,11 @@ public class PreferencesFragment extends Fragment
         View root = binding.getRoot();
 
         //
-        // folder scheme
+        // "Subfolder Scheme" radio group
         //
 
         final RadioGroup folderScheme = binding.schemeRadioGroup;
+        //updateSubfolderSchemeValues(); // do not do it here, because this may shrink the UI object width
         folderScheme.check(schemeVal2Id(StatusAndPrefs.mFolderScheme));
         folderScheme.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener()
         {
@@ -130,6 +154,23 @@ public class PreferencesFragment extends Fragment
                 Log.d(LOG_TAG, "checked Button id = " + id);
                 final String val = schemeId2Val(id);
                 StatusAndPrefs.writeValue(StatusAndPrefs.PREF_FOLDER_SCHEME, val);
+            }
+        });
+
+        //
+        // "Compact Folder Names" switch
+        //
+
+        final SwitchCompat swCompactFolderNames = binding.switchCompactFolderNames;
+        swCompactFolderNames.setChecked(StatusAndPrefs.mbCompactFolderNames);
+        swCompactFolderNames.setOnCheckedChangeListener(new SwitchCompat.OnCheckedChangeListener()
+        {
+            @Override
+            public void onCheckedChanged(CompoundButton view, boolean b)
+            {
+                Log.d(LOG_TAG, "Compact Folder Names switch = " + b);
+                StatusAndPrefs.writeValue(StatusAndPrefs.PREF_COMPACT_FOLDER_NAMES, b);
+                updateSubfolderSchemeValues();
             }
         });
 
