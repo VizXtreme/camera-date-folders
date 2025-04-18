@@ -1,0 +1,3 @@
+- New Gradle.
+- Automatically adapt File Mode to "Manage all files" granted or denied.
+- (v1.5)
