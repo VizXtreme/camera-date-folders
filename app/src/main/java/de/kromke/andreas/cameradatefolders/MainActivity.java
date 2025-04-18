@@ -372,7 +372,10 @@ public class MainActivity extends AppCompatActivity
 
     /**************************************************************************
      *
-     * helper for deprecated startActivityForResult()
+     * Register for "Manage all files" permission handling
+     *
+     * This function does not only register the callback, but also contains
+     * the callback itself.
      *
      *************************************************************************/
     private void registerStorageAccessPermissionCallback()
@@ -385,8 +388,19 @@ public class MainActivity extends AppCompatActivity
                 @RequiresApi(api = Build.VERSION_CODES.R)
                 public void onActivityResult(ActivityResult result)
                 {
-                    // Note that the resultCode is not helpful here, fwr
+                    // (Note that the resultCode is not helpful here, fwr)
+                    // update settings accordingly
                     StatusAndPrefs.mbFullFileAccess = Environment.isExternalStorageManager();
+
+                    // automatically adapt file mode accordingly
+                    if (StatusAndPrefs.mbFullFileAccess != StatusAndPrefs.mbForceFileMode)
+                    {
+                        StatusAndPrefs.mbForceFileMode = StatusAndPrefs.mbFullFileAccess;
+                        StatusAndPrefs.writeValue(StatusAndPrefs.PREF_FORCE_FILE_MODE, StatusAndPrefs.mbForceFileMode);
+                        Toast.makeText(getApplicationContext(),
+                                (StatusAndPrefs.mbForceFileMode) ? R.string.str_auto_activate_file_mode : R.string.str_auto_deactivate_file_mode,
+                                Toast.LENGTH_LONG).show();
+                    }
 
                     // tell preferences fragment
                     Fragment f = getCurrFragment();

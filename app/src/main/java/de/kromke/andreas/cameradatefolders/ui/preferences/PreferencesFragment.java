@@ -292,14 +292,16 @@ public class PreferencesFragment extends Fragment
         binding = null;
     }
 
-    // called when Full File access was either granted or denied
+    // called when "Full File Access" was either granted or denied
     public void updateFullFileAccessMode()
     {
         final SwitchCompat swFullFileAccess = binding.switchFullFileAccess;
         swFullFileAccess.setChecked(StatusAndPrefs.mbFullFileAccess);
 
         final SwitchCompat swForceFileMode = binding.switchForceFileMode;
-        if (StatusAndPrefs.mbFullFileAccess)
+        swForceFileMode.setChecked(StatusAndPrefs.mbForceFileMode);
+
+        if (StatusAndPrefs.mbForceFileMode)
         {
             swForceFileMode.setText(R.string.str_force_file_mode_full_access);
         }
