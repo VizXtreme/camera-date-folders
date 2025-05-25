@@ -18,7 +18,6 @@
 
 package de.kromke.andreas.cameradatefolders;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -31,11 +30,12 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
+//import android.annotation.SuppressLint;
+//import java.text.SimpleDateFormat;
+//import java.util.Date;
 
 
 /** @noinspection JavadocBlankLines*/ // the actual work is done here
@@ -90,7 +90,7 @@ public class Utils
 
 
     // progress callback
-    interface ProgressCallBack
+    public interface ProgressCallBack
     {
         void tellProgress(final String text);
     }
@@ -654,10 +654,15 @@ public class Utils
             }
         }
 
+        /*
+        // Inserting the compile to the application package naturally leads to non-reproducible
+        // builds, so we avoid this and insert the git commit time instead.
         // get ISO8601 date instead of impractical US format (Z = time zone) ...
         @SuppressLint("SimpleDateFormat") SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mmZ");
         Date buildDate = new Date(BuildConfig.TIMESTAMP);
         ret.strCreationTime = df.format(buildDate);
+        */
+        ret.strCreationTime = BuildConfig.GIT_TIMESTAMP;
         ret.isDebug = BuildConfig.DEBUG;
 
         return ret;
@@ -675,7 +680,7 @@ public class Utils
 
         if (ms < 3000)
         {
-            stime = "" + ms + " ms";
+            stime = ms + " ms";
         }
         else
         {
@@ -696,7 +701,7 @@ public class Utils
             {
                 stime += "" + m + '\'';
             }
-            stime += "" + ms + "''";
+            stime += ms + "''";
         }
 
         return stime;

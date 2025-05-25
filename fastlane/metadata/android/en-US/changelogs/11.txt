@@ -1,0 +1,3 @@
+- New Gradle and libraries.
+- Use git commit date and time for application information instead of system build time.
+- (v1.5.1)

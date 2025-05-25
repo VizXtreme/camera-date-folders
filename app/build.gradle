@@ -2,18 +2,55 @@ plugins {
     id 'com.android.application'
 }
 
+//
+// Define a function to retrieve the latest git commit date.
+// Attention: This functionality needs the build cache to be deactivated in gradle.properties:
+//  org.gradle.configuration-cache=false
+//
+def gitVersionProvider = providers.exec {
+    commandLine "git", "show", "--no-patch", "--format=%ai"
+}
+def getVersionDate = { ->
+    return gitVersionProvider.standardOutput.asText.get().trim()
+}
+
+/* DEPRECATED VERSION
+def getVersionDateOld = { ->
+    try {
+        def code = new ByteArrayOutputStream()
+        exec {
+            commandLine 'git', 'show', '--no-patch', '--format=%ai'
+            standardOutput = code
+        }
+        //println code
+        return code.toString().trim()
+    }
+    catch (ignored) {
+        return -1
+    }
+}
+*/
+
 android {
     compileSdk 34
 
     defaultConfig {
         applicationId "de.kromke.andreas.cameradatefolders"
         namespace "de.kromke.andreas.cameradatefolders"
-        buildConfigField "long", "TIMESTAMP", System.currentTimeMillis() + "L"
+        //  We could define a variable here, if we need this value more than once.
+        // def varBuildDate=getVersionDate()
+        //  Using the system compile time leads to not-reproducible builds, i.e. two builds with the
+        //  same source code will produce slightly different binaries.
+        // buildConfigField "long", "TIMESTAMP", System.currentTimeMillis() + "L"
+        //  Instead, we insert the git commit time here:
+        buildConfigField "String", "GIT_TIMESTAMP", "\"$getVersionDate()\""
+        // Instead of directly calling our function, we also could insert our variable here:
+        //  buildConfigField "String", "GIT_TIMESTAMP", "\"$varBuildDate\""
         android.buildFeatures.buildConfig true
         minSdk 21
         targetSdk 34
-        versionCode 10
-        versionName "1.5"
+        versionCode 11
+        versionName "1.5.1"
         multiDexEnabled true
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -59,10 +96,10 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.7.0'
     implementation 'com.google.android.material:material:1.12.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.2.1'
-    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.8.7'
-    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.8.7'
-    implementation 'androidx.navigation:navigation-fragment:2.8.9'
-    implementation 'androidx.navigation:navigation-ui:2.8.9'
+    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.9.0'
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.9.0'
+    implementation 'androidx.navigation:navigation-fragment:2.9.0'
+    implementation 'androidx.navigation:navigation-ui:2.9.0'
 
     // Fix Duplicate class
     implementation(platform("org.jetbrains.kotlin:kotlin-bom:1.9.0"))
