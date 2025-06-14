@@ -1,0 +1,3 @@
+- Get rid of "()" in version info.
+- Updated gradle and libraries.
+- (v1.5.2)

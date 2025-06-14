@@ -43,7 +43,7 @@ android {
         //  same source code will produce slightly different binaries.
         // buildConfigField "long", "TIMESTAMP", System.currentTimeMillis() + "L"
         //  Instead, we insert the git commit time here:
-        buildConfigField "String", "GIT_TIMESTAMP", "\"$getVersionDate()\""
+        buildConfigField "String", "GIT_TIMESTAMP", "\"$getVersionDate\""
         // Instead of directly calling our function, we also could insert our variable here:
         //  buildConfigField "String", "GIT_TIMESTAMP", "\"$varBuildDate\""
         android.buildFeatures.buildConfig true
@@ -93,11 +93,11 @@ android {
 }
 
 dependencies {
-    implementation 'androidx.appcompat:appcompat:1.7.0'
+    implementation 'androidx.appcompat:appcompat:1.7.1'
     implementation 'com.google.android.material:material:1.12.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.2.1'
-    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.9.0'
-    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.9.0'
+    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.9.1'
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.9.1'
     implementation 'androidx.navigation:navigation-fragment:2.9.0'
     implementation 'androidx.navigation:navigation-ui:2.9.0'
 
