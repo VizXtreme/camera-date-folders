@@ -291,6 +291,38 @@ public class Utils
 
     /**************************************************************************
      *
+     * Search for "yyyymmdd", i.e. eight contiguous digits, in a file name
+     * and return its position.
+     *
+     *************************************************************************/
+    static private int camFilePrefixLen(final String name)
+    {
+        int i;
+        int ndigits = 0;
+
+        for (i = 0; i < name.length(); i++)
+        {
+            char c = name.charAt(i);
+            if (Character.isDigit(c))
+            {
+                ndigits++;
+                if (ndigits == 8)
+                {
+                    return i - 7;
+                }
+            }
+            else
+            {
+                ndigits = 0;
+            }
+        }
+
+        return -1;
+    }
+
+
+    /**************************************************************************
+     *
      * heuristic method to decide if a file is a photo or a movie taken with
      * the camera
      *
@@ -301,38 +333,13 @@ public class Utils
     protected camFileDate isCameraFile(final String name)
     {
         //
-        // skip prefix consisting of non-digit characters
+        // skip prefix until eight contiguous digits at position i
         //
 
-        int i;
-        for (i = 0; i < name.length(); i++)
+        int i = camFilePrefixLen(name);
+        if (i < 0)
         {
-            char c = name.charAt(i);
-            if (Character.isDigit(c))
-            {
-                break;
-            }
-        }
-
-        //
-        // prefix must be followed by 8 digits
-        //  yyyymmdd
-        // at positions i..i+7
-        //
-
-        if (i >= name.length() - 8)
-        {
-            // no decimal digit found
             return null;
-        }
-
-        for (int j = 1; j < 8; j++)
-        {
-            char c = name.charAt(i + j);
-            if (!Character.isDigit(c))
-            {
-                return null;
-            }
         }
 
         //
@@ -414,14 +421,10 @@ public class Utils
         // skip prefix consisting of non-digit characters
         //
 
-        int i;
-        for (i = 0; i < srcName.length(); i++)
+        int i = camFilePrefixLen(srcName);
+        if (i <= 0)
         {
-            char c = srcName.charAt(i);
-            if (Character.isDigit(c))
-            {
-                break;
-            }
+            return srcName;     // leave unchanged
         }
 
         // remove prefix
@@ -457,7 +460,7 @@ public class Utils
 
     /**************************************************************************
      *
-     * Name scheme is yyyy or yyyy-mm or yyyy-mm-dd
+     * Directory name scheme is yyyy or yyyy-mm or yyyy-mm-dd
      * and in compact mode also mm or dd or mm-dd
      *
      *************************************************************************/
