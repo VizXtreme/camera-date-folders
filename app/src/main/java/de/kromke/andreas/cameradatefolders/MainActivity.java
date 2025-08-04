@@ -19,15 +19,18 @@
 package de.kromke.andreas.cameradatefolders;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Insets;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowInsets;
 import android.widget.Toast;
 
 import java.io.File;
@@ -232,6 +235,25 @@ public class MainActivity extends AppCompatActivity
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_activity_main);
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(binding.navView, navController);
+
+        // experimental code for Android 15 and 16
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.VANILLA_ICE_CREAM)
+        {
+            Context context = this;
+            findViewById(android.R.id.content).setOnApplyWindowInsetsListener(new View.OnApplyWindowInsetsListener()
+            {
+                @NonNull
+                @Override
+                public WindowInsets onApplyWindowInsets(@NonNull View v, @NonNull WindowInsets insets)
+                {
+                    Insets statusBarInsets = insets.getInsets(WindowInsets.Type.statusBars());
+                    // this seems to have no effect:
+                    //v.setBackgroundColor(ContextCompat.getColor(context, R.color.black));
+                    v.setPadding(0, statusBarInsets.top, 0, 0);
+                    return insets;
+                }
+            });
+        }
 
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N)
         {

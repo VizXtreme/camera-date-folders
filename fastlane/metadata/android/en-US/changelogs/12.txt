@@ -1,4 +1,5 @@
 - Get rid of "()" in version info.
 - Detect unusual prefixes in file names, containing numbers.
-- Updated gradle and libraries.
+- Updated Gradle and libraries.
+- API 36.
 - (v1.5.2)
