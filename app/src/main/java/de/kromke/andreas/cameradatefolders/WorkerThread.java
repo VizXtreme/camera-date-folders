@@ -67,6 +67,7 @@ class WorkerThread implements Runnable, Utils.ProgressCallBack
         mTreeUri = srcUri;
         switch (scheme)
         {
+            //noinspection DefaultNotLastCaseInSwitch
             default:
             case "ymd":
                 mbSortYear = true;
@@ -215,7 +216,7 @@ class WorkerThread implements Runnable, Utils.ProgressCallBack
                 nUnchanged = mUtils.mUnchangedFiles;
                 if (ret > 0)
                 {
-                    tellProgress("" + ret + " files collected.\n\nStart file operations ...");
+                    tellProgress(ret + " files collected.\n\nStart file operations ...");
                     nEmptyDateDirs = -1; // ignore number of empty date directories, as we are going to move files
                     int i = 0;
                     for (Utils.mvOp op : mUtils.getOps())

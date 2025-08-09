@@ -148,7 +148,7 @@ public class PreferencesFragment extends Fragment
         folderScheme.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener()
         {
             @Override
-            public void onCheckedChanged(RadioGroup view, int checkedId)
+            public void onCheckedChanged(@NonNull RadioGroup view, int checkedId)
             {
                 int id = view.getCheckedRadioButtonId();
                 Log.d(LOG_TAG, "checked Button id = " + id);
@@ -166,7 +166,7 @@ public class PreferencesFragment extends Fragment
         swCompactFolderNames.setOnCheckedChangeListener(new SwitchCompat.OnCheckedChangeListener()
         {
             @Override
-            public void onCheckedChanged(CompoundButton view, boolean b)
+            public void onCheckedChanged(@NonNull CompoundButton view, boolean b)
             {
                 Log.d(LOG_TAG, "Compact Folder Names switch = " + b);
                 StatusAndPrefs.writeValue(StatusAndPrefs.PREF_COMPACT_FOLDER_NAMES, b);
@@ -183,7 +183,7 @@ public class PreferencesFragment extends Fragment
         swBackupCopy.setOnCheckedChangeListener(new SwitchCompat.OnCheckedChangeListener()
         {
             @Override
-            public void onCheckedChanged(CompoundButton view, boolean b)
+            public void onCheckedChanged(@NonNull CompoundButton view, boolean b)
             {
                 Log.d(LOG_TAG, "Backup Copy switch = " + b);
                 StatusAndPrefs.writeValue(StatusAndPrefs.PREF_BACKUP_COPY, b);
@@ -201,7 +201,7 @@ public class PreferencesFragment extends Fragment
             swFullFileAccess.setOnCheckedChangeListener(new SwitchCompat.OnCheckedChangeListener()
             {
                 @Override
-                public void onCheckedChanged(CompoundButton view, boolean b)
+                public void onCheckedChanged(@NonNull CompoundButton view, boolean b)
                 {
                     Log.d(LOG_TAG, "Full File Access switch = " + b);
                     MainActivity mainActivity = (MainActivity) getActivity();
@@ -240,7 +240,7 @@ public class PreferencesFragment extends Fragment
         swForceFileMode.setOnCheckedChangeListener(new SwitchCompat.OnCheckedChangeListener()
         {
             @Override
-            public void onCheckedChanged(CompoundButton view, boolean b)
+            public void onCheckedChanged(@NonNull CompoundButton view, boolean b)
             {
                 Log.d(LOG_TAG, "Force File Mode switch = " + b);
                 StatusAndPrefs.writeValue(StatusAndPrefs.PREF_FORCE_FILE_MODE, b);
@@ -257,7 +257,7 @@ public class PreferencesFragment extends Fragment
         prefixHandling.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener()
         {
             @Override
-            public void onCheckedChanged(RadioGroup view, int checkedId)
+            public void onCheckedChanged(@NonNull RadioGroup view, int checkedId)
             {
                 int id = view.getCheckedRadioButtonId();
                 Log.d(LOG_TAG, "checked Button id = " + id);
@@ -276,7 +276,7 @@ public class PreferencesFragment extends Fragment
         swDryRun.setOnCheckedChangeListener(new SwitchCompat.OnCheckedChangeListener()
         {
             @Override
-            public void onCheckedChanged(CompoundButton view, boolean b)
+            public void onCheckedChanged(@NonNull CompoundButton view, boolean b)
             {
                 Log.d(LOG_TAG, "Dry Run switch = " + b);
                 StatusAndPrefs.writeValue(StatusAndPrefs.PREF_DRY_RUN, b);
@@ -292,7 +292,7 @@ public class PreferencesFragment extends Fragment
         swSkipTidy.setOnCheckedChangeListener(new SwitchCompat.OnCheckedChangeListener()
         {
             @Override
-            public void onCheckedChanged(CompoundButton view, boolean b)
+            public void onCheckedChanged(@NonNull CompoundButton view, boolean b)
             {
                 Log.d(LOG_TAG, "Skip Tidy switch = " + b);
                 StatusAndPrefs.writeValue(StatusAndPrefs.PREF_SKIP_TIDY, b);

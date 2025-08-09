@@ -386,7 +386,7 @@ public class OpsFileMode extends Utils
                         Log.w(LOG_TAG, "gatherDirectoryFileMode() -- image file does not look like camera file: " + name);
                         mIgnoredImageFiles++;
                     }
-                    callback.tellProgress("" + mOps.size() + "/" + mUnchangedFiles);
+                    callback.tellProgress(mOps.size() + "/" + mUnchangedFiles);
                 }
                 else
                 {
