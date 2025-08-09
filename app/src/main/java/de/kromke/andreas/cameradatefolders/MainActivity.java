@@ -19,6 +19,7 @@
 package de.kromke.andreas.cameradatefolders;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -248,7 +249,8 @@ public class MainActivity extends AppCompatActivity
                 {
                     Insets statusBarInsets = insets.getInsets(WindowInsets.Type.statusBars());
                     // this seems to have no effect:
-                    //v.setBackgroundColor(ContextCompat.getColor(context, R.color.black));
+                    //v.setBackgroundColor(ContextCompat.getColor(context, R.color.white));
+                    //v.setForegroundTintMode(PorterDuff.Mode.CLEAR);
                     v.setPadding(0, statusBarInsets.top, 0, 0);
                     return insets;
                 }
@@ -453,6 +455,7 @@ public class MainActivity extends AppCompatActivity
      * helper to start SAF file selector
      *
      *************************************************************************/
+    @SuppressLint("ObsoleteSdkInt")
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     protected Intent createSafPickerIntent()
     {
@@ -475,6 +478,7 @@ public class MainActivity extends AppCompatActivity
      * bFlatten: true for REVERT, otherwise false
      *
      *************************************************************************/
+    @SuppressLint("ObsoleteSdkInt")
     private void runThread(boolean bFlatten)
     {
         if (StatusAndPrefs.mCamFolder == null)
@@ -489,6 +493,7 @@ public class MainActivity extends AppCompatActivity
         {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R)
             {
+                // Android 11 (API 30) and newer
                 mbPermissionGranted = Environment.isExternalStorageManager();
             }
             else
@@ -627,9 +632,11 @@ public class MainActivity extends AppCompatActivity
      * ask if file shall be overwritten
      *
      *************************************************************************/
+    @SuppressLint("ObsoleteSdkInt")
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     private void dialogAskDestinationFolder()
     {
+        //noinspection ExtractMethodRecommender
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Select Destination Folder?");
         builder.setMessage(R.string.str_ask_dest_folder);
@@ -699,6 +706,7 @@ public class MainActivity extends AppCompatActivity
      * onClick callback
      *
      *************************************************************************/
+    @SuppressLint("ObsoleteSdkInt")
     public void onClickSelectCameraFolder(View view)
     {
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP)
@@ -729,6 +737,7 @@ public class MainActivity extends AppCompatActivity
      * onClick callback
      *
      *************************************************************************/
+    @SuppressLint("ObsoleteSdkInt")
     public void onClickSelectDestinationFolder(View view)
     {
         if (mDcimTreeUri == null)
