@@ -3,8 +3,10 @@
     <style name="Theme.CameraDateFolders" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
         <!-- Primary brand color. -->
         <!--   (colorPrimary is the daytime action bar colour) -->
+        <!--   (colorPrimary is also the daytime colour for the selected symbol at the bottom) -->
         <item name="colorPrimary">@color/purple_500</item>
         <item name="colorPrimaryVariant">@color/purple_700</item>
+        <!--   (colorOnPrimary: colour for text on SORT/REVERT buttons) -->
         <item name="colorOnPrimary">@color/white</item>
         <!-- Secondary brand color. -->
         <!--   (colorSecondary is the daytime colour of activated switch buttons) -->

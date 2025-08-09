@@ -6,10 +6,11 @@
     tools:context=".ui.preferences.PreferencesFragment">
 
     <!-- The bottom margin of the scroll view is necessary, otherwise content is hidden behind navigation bar. FWFR. -->
+    <!-- For Android 16, bottom margin must be >= 64dp (was 54dp) -->
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="54dp"
+        android:layout_marginBottom="70dp"
         android:fadeScrollbars="false"
         >
 
@@ -35,10 +36,14 @@
 
                 <RadioButton
                     android:id="@+id/button_scheme_y_m_d"
+                    android:textColor="@color/ButtonTextColour"
                     android:layout_width="match_parent"
                     android:layout_height="32dp"
                     android:text="1965/1965-07/1965-07-21"
                     tools:ignore="HardcodedText" />
+                <!-- android:textColor="@color/white" -->
+                <!-- does not work: -->
+                <!-- android:theme="@style/ButtonStyle" -->
 
                 <RadioButton
                     android:id="@+id/button_scheme_m_d"
