@@ -2,4 +2,5 @@
 - Detect unusual prefixes in file names, containing numbers.
 - Updated Gradle and libraries.
 - API 36.
+- Colours of dark theme changed.
 - (v1.5.2)

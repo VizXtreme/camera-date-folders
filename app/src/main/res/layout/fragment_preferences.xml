@@ -36,11 +36,12 @@
 
                 <RadioButton
                     android:id="@+id/button_scheme_y_m_d"
-                    android:textColor="@color/ButtonTextColour"
                     android:layout_width="match_parent"
                     android:layout_height="32dp"
                     android:text="1965/1965-07/1965-07-21"
                     tools:ignore="HardcodedText" />
+                <!-- works:
+                     android:textColor="@color/ButtonTextColour" -->
                 <!-- android:textColor="@color/white" -->
                 <!-- does not work: -->
                 <!-- android:theme="@style/ButtonStyle" -->

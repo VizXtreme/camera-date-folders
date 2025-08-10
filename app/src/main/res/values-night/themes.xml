@@ -1,9 +1,8 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
     <style name="Theme.CameraDateFolders" parent="Theme.MaterialComponents">
-        <!-- Primary brand color. -->
-        <!-- colorPrimary is ignored in DayNight theme (!), action bar colour is always black FWR -->
-        <item name="colorPrimary">#FF0000e0</item>
+        <!-- Colour of selected symbol on bottom: -->
+        <item name="colorPrimary">#FF6495ed</item>
         <item name="colorPrimaryVariant">#ff00ff00</item>
         <!--   (colorOnPrimary: colour for text on SORT/REVERT buttons) -->
         <item name="colorOnPrimary">#ffe0e0e0</item>
@@ -14,24 +13,27 @@
         <!-- unused -->
         <item name="colorOnSecondary">#ffff0000</item>
         <!-- Status bar color. -->
-        <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
+        <item name="android:statusBarColor" tools:targetApi="l">#FF0000c0</item>
         <!-- Customize your theme here. -->
         <item name="android:textAllCaps">false</item>
         <!--
         <item name="android:windowBackground">#ff000000</item>
         <item name="android:background">#ff000000</item>
         -->
+        <!-- Activity background: -->
         <item name="android:colorBackground">#ff202020</item>
-        <!-- does not work in Preferences tab for radiobuttons and switches: -->
-        <item name="android:textColor">#ffff0000</item>
-        <!-- experimental -->
-        <!-- circle colour of activated switch-->
-        <item name="colorControlActivated">#ff0000e0</item>
-        <!-- colour of inactive tab symbols on bottom: -->
-        <!-- colour of circles of selected radio buttons: -->
-        <item name="colorOnSurface">#ffc0c0c0</item>
-        <!-- colour of circles of unselected radio buttons: -->
-        <item name="colorSurface">#ff000040</item>
+        <!-- Text colour.
+             Does not work in Preferences tab for radiobuttons and switches: -->
+        <item name="android:textColor">#ffe0e0e0</item>
+        <!-- circle colour of activated switches and activated radio buttons: -->
+        <item name="colorControlActivated">#ff808000</item>
+        <!-- This setting has effect on the colour (or lightness?)
+             of inactive tab symbols on bottom
+             and the colour of circles of unselected radio buttons: -->
+        <item name="colorOnSurface">#fff0f0f0</item>
+        <!-- colour of action bar: -->
+        <!-- colour of circles of unselected switch buttons: -->
+        <item name="colorSurface">#ff002090</item>
 
         <!-- does nothing
         <item name="colorControlNormal">#ff000000</item>
