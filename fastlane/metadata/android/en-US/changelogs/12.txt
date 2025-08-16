@@ -2,6 +2,7 @@
 - Resetting preferences updates GUI elements accordingly.
 - Get rid of "()" in version info.
 - Colours of dark theme changed.
+- Some GUI elements rearranged for long screens.
 - Updated Gradle and libraries.
 - API 36.
 - (v1.5.2)

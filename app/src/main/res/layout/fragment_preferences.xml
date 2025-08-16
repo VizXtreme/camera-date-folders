@@ -7,10 +7,11 @@
 
     <!-- The bottom margin of the scroll view is necessary, otherwise content is hidden behind navigation bar. FWFR. -->
     <!-- For Android 16, bottom margin must be >= 64dp (was 54dp) -->
+    <!-- Xiaomi device with Android 15 needs 90dp  -->
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="70dp"
+        android:layout_marginBottom="90dp"
         android:fadeScrollbars="false"
         >
 
