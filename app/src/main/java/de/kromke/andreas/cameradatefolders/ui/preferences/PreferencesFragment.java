@@ -1,5 +1,7 @@
 package de.kromke.andreas.cameradatefolders.ui.preferences;
 
+import static androidx.navigation.fragment.FragmentKt.findNavController;
+
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -92,7 +94,7 @@ public class PreferencesFragment extends Fragment
         return R.id.button_scheme_y_m_d;
     }
 
-    // convert prefix in text form to radio button id
+    // convert prefix code to radio button id
     private static int prefixVal2Id(final int val)
     {
         switch (val)
@@ -117,6 +119,20 @@ public class PreferencesFragment extends Fragment
         binding.buttonSchemeMD.setText((bl) ? "1965-07/1965-07-21" : "1965-07/21");
         binding.buttonSchemeYD.setText((bl) ? "1965/1965-07-21" : "1965/07-21");
         binding.buttonSchemeYM.setText((bl) ? "1965/1965-07" : "1965/07");
+    }
+
+    // update GUI from settings, used when settings are reset
+    private void updateAllControls()
+    {
+        updateSubfolderSchemeValues();
+        binding.schemeRadioGroup.check(schemeVal2Id(StatusAndPrefs.mFolderScheme));
+        binding.switchCompactFolderNames.setChecked(StatusAndPrefs.mbCompactFolderNames);
+        binding.switchBackupCopy.setChecked(StatusAndPrefs.mbBackupCopy);
+        binding.switchFullFileAccess.setChecked(StatusAndPrefs.mbFullFileAccess);
+        binding.switchForceFileMode.setChecked(StatusAndPrefs.mbForceFileMode);
+        binding.prefixRadioGroup.check(prefixVal2Id(StatusAndPrefs.mPrefixMode));
+        binding.switchDryRun.setChecked(StatusAndPrefs.mbDryRun);
+        binding.switchSkipTidy.setChecked(StatusAndPrefs.mbSkipTidy);
     }
 
     // If a longer string is replaced by a shorter one in onCreateView() or onStart(),
@@ -311,6 +327,7 @@ public class PreferencesFragment extends Fragment
             {
                 Log.d(LOG_TAG, "Reset Preferences button");
                 StatusAndPrefs.reset();
+                updateAllControls();
             }
         });
         /*

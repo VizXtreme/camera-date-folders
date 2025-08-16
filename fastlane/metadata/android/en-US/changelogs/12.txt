@@ -1,6 +1,7 @@
-- Get rid of "()" in version info.
 - Detect unusual prefixes in file names, containing numbers.
+- Resetting preferences updates GUI elements accordingly.
+- Get rid of "()" in version info.
+- Colours of dark theme changed.
 - Updated Gradle and libraries.
 - API 36.
-- Colours of dark theme changed.
 - (v1.5.2)
