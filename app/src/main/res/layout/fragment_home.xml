@@ -21,14 +21,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <!-- Xiaomi needs layout_marginBottom=100 instead of 80 -->
+    <!-- G8s           has 2248 x 1080
+         Pixel 3a      has 2220 x 1080
+         Redmi Note 13 has 2400 x 1080 -->
     <Button
         android:id="@+id/button_start"
         android:onClick="onClickButtonStart"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:layout_marginStart="16dp"
-        android:layout_marginBottom="100dp"
+        android:layout_marginBottom="0dp"
         android:backgroundTint="#43A047"
         android:paddingStart="50dp"
         android:paddingTop="12dp"
