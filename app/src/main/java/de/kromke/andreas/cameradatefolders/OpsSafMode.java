@@ -262,8 +262,13 @@ public class OpsSafMode extends Utils
         //
 
         final String srcName = op.srcFile.getName();
+        if (srcName == null)
+        {
+            Log.e(LOG_TAG, "mvFile() -- cannot get name of source file");
+            mMoveFileFailures++;
+            return false;
+        }
         final String destName = getDestFileName(srcName, mPrefixMode);
-        assert srcName != null;
         boolean bLeaveName = srcName.equals(destName);
 
         // shortcut for renaming without moving
