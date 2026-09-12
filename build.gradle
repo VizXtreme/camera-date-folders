@@ -5,14 +5,12 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        // This is not Gradle, but the Android Gradle Plugin, with its own versioning:
         classpath 'com.android.tools.build:gradle:8.13.0'
-
-        // NOTE: Do not place your application dependencies here; they belong
-        // in the individual module build.gradle files
+        classpath 'org.jetbrains.kotlin:kotlin-gradle-plugin:2.1.10'
+        classpath 'org.jetbrains.kotlin:compose-compiler-gradle-plugin:2.1.10'
     }
 }
 
 tasks.register('clean', Delete) {
-    delete rootProject.layout.buildDir
+    delete rootProject.layout.buildDirectory
 }
