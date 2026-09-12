@@ -17,3 +17,4 @@ local.properties
 app/release/
 app/release_play/
 app/mapping.txt
+app-artifacts/
