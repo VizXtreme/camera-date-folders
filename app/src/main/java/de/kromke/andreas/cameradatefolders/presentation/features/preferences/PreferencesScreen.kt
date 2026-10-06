@@ -1,6 +1,5 @@
 package de.kromke.andreas.cameradatefolders.presentation.features.preferences
 
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -107,35 +106,31 @@ fun PreferencesScreen(
                     onCheckedChange = onFollowSystemThemeChange
                 )
 
-                AnimatedVisibility(visible = !followSystemTheme) {
-                    Column {
+                if (!followSystemTheme) {
+                    HorizontalDivider(
+                        modifier = Modifier.padding(vertical = 12.dp),
+                        color = MaterialTheme.colorScheme.outlineVariant
+                    )
+
+                    SettingSwitchRow(
+                        title = "Dark Mode",
+                        subtitle = if (darkMode) "Dark theme enabled" else "Light theme enabled",
+                        checked = darkMode,
+                        onCheckedChange = onDarkModeChange
+                    )
+
+                    if (darkMode) {
                         HorizontalDivider(
                             modifier = Modifier.padding(vertical = 12.dp),
                             color = MaterialTheme.colorScheme.outlineVariant
                         )
 
                         SettingSwitchRow(
-                            title = "Dark Mode",
-                            subtitle = if (darkMode) "Dark theme enabled" else "Light theme enabled",
-                            checked = darkMode,
-                            onCheckedChange = onDarkModeChange
+                            title = "AMOLED Mode",
+                            subtitle = if (amoledMode) "Pure pitch black for OLED screens" else "Standard dark theme",
+                            checked = amoledMode,
+                            onCheckedChange = onAmoledModeChange
                         )
-
-                        AnimatedVisibility(visible = darkMode) {
-                            Column {
-                                HorizontalDivider(
-                                    modifier = Modifier.padding(vertical = 12.dp),
-                                    color = MaterialTheme.colorScheme.outlineVariant
-                                )
-
-                                SettingSwitchRow(
-                                    title = "AMOLED Mode",
-                                    subtitle = if (amoledMode) "Pure pitch black for OLED screens" else "Standard dark theme",
-                                    checked = amoledMode,
-                                    onCheckedChange = onAmoledModeChange
-                                )
-                            }
-                        }
                     }
                 }
             }
