@@ -1,5 +1,6 @@
 package de.kromke.andreas.cameradatefolders.presentation.features.preferences
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -17,6 +18,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.BugReport
 import androidx.compose.material.icons.rounded.DriveFileRenameOutline
 import androidx.compose.material.icons.rounded.FolderSpecial
+import androidx.compose.material.icons.rounded.Palette
 import androidx.compose.material.icons.rounded.RestartAlt
 import androidx.compose.material.icons.rounded.Speed
 import androidx.compose.material3.HorizontalDivider
@@ -54,6 +56,12 @@ fun PreferencesScreen(
     dryRun: Boolean,
     skipTidy: Boolean,
     isAndroid11Plus: Boolean,
+    followSystemTheme: Boolean,
+    darkMode: Boolean,
+    amoledMode: Boolean,
+    onFollowSystemThemeChange: (Boolean) -> Unit,
+    onDarkModeChange: (Boolean) -> Unit,
+    onAmoledModeChange: (Boolean) -> Unit,
     onSchemeChange: (String) -> Unit,
     onCompactFolderNamesChange: (Boolean) -> Unit,
     onBackupCopyChange: (Boolean) -> Unit,
@@ -84,6 +92,55 @@ fun PreferencesScreen(
             .padding(horizontal = 16.dp, vertical = 12.dp),
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
+        // Theme & Appearance Section
+        ExpressiveSectionCard(
+            title = "Theme",
+            subtitle = "Customize application appearance and display mode",
+            icon = Icons.Rounded.Palette,
+            iconTint = MaterialTheme.colorScheme.primary
+        ) {
+            Column {
+                SettingSwitchRow(
+                    title = "Follow System Theme",
+                    subtitle = if (followSystemTheme) "Adapting to system theme" else "Manual theme selection",
+                    checked = followSystemTheme,
+                    onCheckedChange = onFollowSystemThemeChange
+                )
+
+                AnimatedVisibility(visible = !followSystemTheme) {
+                    Column {
+                        HorizontalDivider(
+                            modifier = Modifier.padding(vertical = 12.dp),
+                            color = MaterialTheme.colorScheme.outlineVariant
+                        )
+
+                        SettingSwitchRow(
+                            title = "Dark Mode",
+                            subtitle = if (darkMode) "Dark theme enabled" else "Light theme enabled",
+                            checked = darkMode,
+                            onCheckedChange = onDarkModeChange
+                        )
+
+                        AnimatedVisibility(visible = darkMode) {
+                            Column {
+                                HorizontalDivider(
+                                    modifier = Modifier.padding(vertical = 12.dp),
+                                    color = MaterialTheme.colorScheme.outlineVariant
+                                )
+
+                                SettingSwitchRow(
+                                    title = "AMOLED Mode",
+                                    subtitle = if (amoledMode) "Pure pitch black for OLED screens" else "Standard dark theme",
+                                    checked = amoledMode,
+                                    onCheckedChange = onAmoledModeChange
+                                )
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
         // Folder Organization Section
         ExpressiveSectionCard(
             title = "Subfolder Scheme",

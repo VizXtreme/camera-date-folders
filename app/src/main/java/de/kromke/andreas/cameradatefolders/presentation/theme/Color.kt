@@ -53,3 +53,30 @@ val DarkColorScheme = darkColorScheme(
     tertiaryContainer = Color(0xFF633B48),
     onTertiaryContainer = Pink90,
 )
+
+val AmoledColorScheme = darkColorScheme(
+    primary = Purple80,
+    onPrimary = Purple20,
+    primaryContainer = Color(0xFF4F378B),
+    onPrimaryContainer = Purple90,
+    secondary = PurpleGrey80,
+    onSecondary = Color(0xFF332D41),
+    secondaryContainer = Color(0xFF4A4458),
+    onSecondaryContainer = PurpleGrey90,
+    tertiary = Pink80,
+    onTertiary = Color(0xFF492532),
+    tertiaryContainer = Color(0xFF633B48),
+    onTertiaryContainer = Pink90,
+    background = Color.Black,
+    surface = Color.Black,
+    surfaceDim = Color.Black,
+    surfaceBright = Color(0xFF1E1E1E),
+    surfaceContainerLowest = Color.Black,
+    surfaceContainerLow = Color(0xFF0F0E13),
+    surfaceContainer = Color(0xFF16151B),
+    surfaceContainerHigh = Color(0xFF201E26),
+    surfaceContainerHighest = Color(0xFF2B2932),
+    onBackground = Color.White,
+    onSurface = Color.White,
+)
+

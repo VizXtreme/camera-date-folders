@@ -27,6 +27,7 @@ import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.togetherWith
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.icons.Icons
@@ -82,6 +83,9 @@ class MainActivity : ComponentActivity() {
     private var prefixMode by mutableIntStateOf(0)
     private var dryRun by mutableStateOf(false)
     private var skipTidy by mutableStateOf(false)
+    private var followSystemTheme by mutableStateOf(true)
+    private var darkMode by mutableStateOf(false)
+    private var amoledMode by mutableStateOf(false)
 
     // Path display and validation states
     private var camFolderDisplay by mutableStateOf<String?>(null)
@@ -122,7 +126,14 @@ class MainActivity : ComponentActivity() {
         }
 
         setContent {
-            AppTheme {
+            val systemInDark = isSystemInDarkTheme()
+            val effectiveDarkTheme = if (followSystemTheme) systemInDark else darkMode
+            val effectiveAmoled = !followSystemTheme && darkMode && amoledMode
+
+            AppTheme(
+                darkTheme = effectiveDarkTheme,
+                amoled = effectiveAmoled
+            ) {
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
@@ -171,6 +182,21 @@ class MainActivity : ComponentActivity() {
                                     dryRun = dryRun,
                                     skipTidy = skipTidy,
                                     isAndroid11Plus = Build.VERSION.SDK_INT >= Build.VERSION_CODES.R,
+                                    followSystemTheme = followSystemTheme,
+                                    darkMode = darkMode,
+                                    amoledMode = amoledMode,
+                                    onFollowSystemThemeChange = { isFollow ->
+                                        followSystemTheme = isFollow
+                                        StatusAndPrefs.writeValue(StatusAndPrefs.PREF_FOLLOW_SYSTEM_THEME, isFollow)
+                                    },
+                                    onDarkModeChange = { isDark ->
+                                        darkMode = isDark
+                                        StatusAndPrefs.writeValue(StatusAndPrefs.PREF_DARK_MODE, isDark)
+                                    },
+                                    onAmoledModeChange = { isAmoled ->
+                                        amoledMode = isAmoled
+                                        StatusAndPrefs.writeValue(StatusAndPrefs.PREF_AMOLED_MODE, isAmoled)
+                                    },
                                     onSchemeChange = { newScheme ->
                                         folderScheme = newScheme
                                         StatusAndPrefs.writeValue(StatusAndPrefs.PREF_FOLDER_SCHEME, newScheme)
@@ -340,6 +366,9 @@ class MainActivity : ComponentActivity() {
         prefixMode = StatusAndPrefs.mPrefixMode
         dryRun = StatusAndPrefs.mbDryRun
         skipTidy = StatusAndPrefs.mbSkipTidy
+        followSystemTheme = StatusAndPrefs.mbFollowSystemTheme
+        darkMode = StatusAndPrefs.mbDarkMode
+        amoledMode = StatusAndPrefs.mbAmoledMode
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
             fullFileAccess = Environment.isExternalStorageManager()
         }

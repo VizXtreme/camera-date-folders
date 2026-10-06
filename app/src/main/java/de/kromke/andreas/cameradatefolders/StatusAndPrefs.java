@@ -39,6 +39,9 @@ public class StatusAndPrefs
     public static final String PREF_FORCE_FILE_MODE = "prefForceFileMode";
     public static final String PREF_DRY_RUN = "prefDryRun";
     public static final String PREF_SKIP_TIDY = "prefSkipTidy";
+    public static final String PREF_FOLLOW_SYSTEM_THEME = "prefFollowSystemTheme";
+    public static final String PREF_DARK_MODE = "prefDarkMode";
+    public static final String PREF_AMOLED_MODE = "prefAmoledMode";
     // status
     public static boolean bSortRunning = false;
     public static boolean bRevertRunning = false;
@@ -54,6 +57,9 @@ public class StatusAndPrefs
     public static boolean mbForceFileMode = false;
     public static boolean mbDryRun = false;
     public static boolean mbSkipTidy = false;
+    public static boolean mbFollowSystemTheme = true;
+    public static boolean mbDarkMode = false;
+    public static boolean mbAmoledMode = false;
 
 
     /**************************************************************************
@@ -84,6 +90,9 @@ public class StatusAndPrefs
         mbForceFileMode = mPrefs.getBoolean(PREF_FORCE_FILE_MODE, false);
         mbDryRun = mPrefs.getBoolean(PREF_DRY_RUN, false);
         mbSkipTidy = mPrefs.getBoolean(PREF_SKIP_TIDY, false);
+        mbFollowSystemTheme = mPrefs.getBoolean(PREF_FOLLOW_SYSTEM_THEME, true);
+        mbDarkMode = mPrefs.getBoolean(PREF_DARK_MODE, false);
+        mbAmoledMode = mPrefs.getBoolean(PREF_AMOLED_MODE, false);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R)
         {
             mbFullFileAccess = Environment.isExternalStorageManager();
@@ -111,6 +120,9 @@ public class StatusAndPrefs
             prefEditor.remove(PREF_FORCE_FILE_MODE);
             prefEditor.remove(PREF_DRY_RUN);
             prefEditor.remove(PREF_SKIP_TIDY);
+            prefEditor.remove(PREF_FOLLOW_SYSTEM_THEME);
+            prefEditor.remove(PREF_DARK_MODE);
+            prefEditor.remove(PREF_AMOLED_MODE);
             prefEditor.apply();
         }
         else
@@ -185,6 +197,21 @@ public class StatusAndPrefs
 
             case PREF_SKIP_TIDY:
                 mbSkipTidy = (boolean) val;
+                isBool = true;
+                break;
+
+            case PREF_FOLLOW_SYSTEM_THEME:
+                mbFollowSystemTheme = (boolean) val;
+                isBool = true;
+                break;
+
+            case PREF_DARK_MODE:
+                mbDarkMode = (boolean) val;
+                isBool = true;
+                break;
+
+            case PREF_AMOLED_MODE:
+                mbAmoledMode = (boolean) val;
                 isBool = true;
                 break;
         }
